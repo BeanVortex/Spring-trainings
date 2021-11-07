@@ -6,11 +6,14 @@ import javax.validation.constraints.*;
 
 @Data
 public class Customer {
-    @NotNull
+
     private String firstName;
+
     @NotEmpty(message = "is required")
     private String lastName;
-    @Min(value = 1, message = "number cant be less than 1 digit")
-    @Min(value = 10, message = "number cant be more than 10 digit")
+
+    @NotNull(message = "can't be empty")
+    @Min(value = 1, message = "number cant be less than 1 ")
+    @Max(value = 10, message = "number cant be more than 10 ")
     private Integer freePass;
 }

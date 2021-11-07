@@ -1,6 +1,8 @@
 package com.example.train4;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 
 @Controller
@@ -65,15 +68,11 @@ public class HomeController {
     }
 
     @RequestMapping("/processCustomer")
-    public String processCustomer(@Valid @ModelAttribute("customer") Customer customer, BindingResult result) {
-        System.out.println(result.hasErrors());
-        System.out.println(result.getModel());
-        System.out.println(customer.getFirstName() == null);
-        System.out.println(customer.getLastName() == null);
-        System.out.println(customer.getFreePass() == null);
-        if (result.hasErrors())
+    public String processCustomer(@Valid @ModelAttribute("customer") Customer theCustomer, BindingResult result) {
+        if (result.hasErrors()) {
             return "customer-form";
-        else
+        } else {
             return "customer-confirmation";
+        }
     }
 }
