@@ -6,6 +6,12 @@
         <title>Title</title>
     </head>
     <body>
-        The customer is confirmed: ${customer.firstName} ${customer.lastName}
+        The customer name: ${customer.firstName} ${customer.lastName}
+        <br/>
+        Free pass : ${customer.freePass}
+        <br>
+        postal code: ${customer.postalCode}
+        <br>
+        course code: ${customer.courseCode}
     </body>
 </html>
