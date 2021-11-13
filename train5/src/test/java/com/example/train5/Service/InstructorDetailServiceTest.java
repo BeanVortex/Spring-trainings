@@ -2,8 +2,8 @@ package com.example.train5.Service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.example.train5.Model.InstructorDetailModel;
-import com.example.train5.Model.InstructorModel;
+import com.example.train5.Model.InstructorDetail;
+import com.example.train5.Model.Instructor;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -29,10 +29,10 @@ class InstructorDetailServiceTest {
     @Test
     @Order(1)
     void save() {
-        var detail = new InstructorDetailModel();
+        var detail = new InstructorDetail();
         detail.setHobby("adsf");
         detail.setYoutubeChannel("https://youtube.com");
-        var instructor = new InstructorModel();
+        var instructor = new Instructor();
         instructor.setEmail("dd@mail.com");
         instructor.setFirstName("first Name");
         instructor.setLastName("last Name");

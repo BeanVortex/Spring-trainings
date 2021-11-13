@@ -1,9 +1,7 @@
 package com.example.train5.Service;
 
-import com.example.train5.Model.InstructorDetailModel;
-import com.example.train5.Model.InstructorModel;
+import com.example.train5.Model.InstructorDetail;
 import com.example.train5.Repo.InstructorDetailRepo;
-import com.example.train5.Repo.InstructorRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +10,11 @@ import org.springframework.stereotype.Service;
 public class InstructorDetailService {
     private final InstructorDetailRepo repo;
 
-    public InstructorDetailModel save(InstructorDetailModel instructor) {
+    public InstructorDetail save(InstructorDetail instructor) {
         return repo.save(instructor);
     }
 
-    public InstructorDetailModel get(Long id) {
+    public InstructorDetail get(Long id) {
         return repo.findById(id).orElse(null);
     }
 

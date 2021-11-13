@@ -10,7 +10,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class InstructorDetailModel {
+public class InstructorDetail {
 
     @Id
     @GeneratedValue
@@ -19,5 +19,5 @@ public class InstructorDetailModel {
     private String hobby;
 
     @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL)
-    private InstructorModel instructor;
+    private Instructor instructor;
 }

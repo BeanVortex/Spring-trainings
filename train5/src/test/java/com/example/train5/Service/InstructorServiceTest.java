@@ -1,16 +1,13 @@
 package com.example.train5.Service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.in;
 
 // import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.example.train5.Model.InstructorDetailModel;
-import com.example.train5.Model.InstructorModel;
+import com.example.train5.Model.*;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -21,49 +18,113 @@ import org.springframework.test.annotation.DirtiesContext;
 class InstructorServiceTest {
 
     private final InstructorService service;
-    private final InstructorDetailService service2;
+    private final InstructorDetailService detailService;
+    private final CourseService courseService;
+    private final StudentService studentService;
+
+    private static Long courseId;
 
     @Autowired
-    public InstructorServiceTest(InstructorService service, InstructorDetailService service2) {
+    public InstructorServiceTest(InstructorService service, InstructorDetailService detailService,
+                                 CourseService courseService, StudentService studentService) {
         this.service = service;
-        this.service2 = service2;
+        this.detailService = detailService;
+        this.courseService = courseService;
+        this.studentService = studentService;
     }
 
     private static Long id;
 
     @Test
     @Order(1)
-    void save() {
-        var instructor = new InstructorModel();
+    void saveInstructorAndDetailCascading() {
+        var instructor = new Instructor();
         instructor.setEmail("dd@mail.com");
         instructor.setFirstName("first Name");
         instructor.setLastName("last Name");
-        var detail = new InstructorDetailModel();
+
+        var detail = new InstructorDetail();
         detail.setHobby("adsf");
         detail.setYoutubeChannel("https://youtube.com");
         instructor.setInstructorDetail(detail);
-        var newInstructor = service.save(instructor);
-        id = newInstructor.getId();
-        assertThat(newInstructor).isNotNull();
+
+        service.save(instructor);
+        id = instructor.getId();
     }
 
     @Test
     @Order(2)
-    void get() {
-        var fetchedInstructor = service2.get(2L);
-        System.out.println(fetchedInstructor.getInstructor().getFirstName());
-        assertThat(fetchedInstructor).isNotNull();
+    void saveCourseAndReviewCascading() {
+        var course = new Course();
+        course.setTitle("fasd");
+        var instructor = new Instructor();
+        instructor.setId(id);
+        course.setInstructor(instructor);
+        var review = new Review();
+        review.setReview("review for a course");
+        course.addReview(review);
+        courseService.save(course);
+        courseId = course.getId();
     }
 
     @Test
     @Order(3)
+    void saveStudentForCourse() {
+        var student = new Student();
+        student.setFirstName("Dark");
+        student.setLastName("Developer");
+        student.setEmail("dark_developer@outlook.com");
+        var tmpCourse = new Course();
+        tmpCourse.setId(courseId);
+        student.addCourse(tmpCourse);
+        studentService.save(student);
+    }
+
+    @Test
+    @Order(4)
+    void getDetail() {
+        var fetchedInstructor = detailService.get(2L);
+        System.out.println(fetchedInstructor);
+        assertThat(fetchedInstructor).isNotNull();
+    }
+
+    @Test
+    @Order(5)
+    void getInstructor() {
+        var fetchedInstructor = service.get(id);
+        assertThat(fetchedInstructor).isNotNull();
+    }
+
+    @Test
+    @Order(6)
+    void getCourses() {
+        var fetchedInstructor = service.get(id);
+        fetchedInstructor.getCourses().forEach(System.out::println);
+        courseId = fetchedInstructor.getCourses().get(0).getId();
+        assertThat(fetchedInstructor).isNotNull();
+    }
+
+    @Test
+    @Order(7)
+    @Disabled
     void delete() {
         service.delete(id);
     }
+
     @Test
-    @Order(4)
-    void delete2() {
-        service2.delete(2L);
+    @Order(8)
+    @Disabled
+    void deleteDetail() {
+        detailService.delete(2L);
     }
+
+
+    @Test
+    @Order(9)
+    @Disabled
+    void deleteCourse() {
+        courseService.delete(courseId);
+    }
+
 
 }
