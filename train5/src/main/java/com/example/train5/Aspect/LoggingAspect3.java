@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Slf4j
 @Component
-@Order(3)
-public class LoggingAspect2 {
+@Order(2)
+public class LoggingAspect3 {
 
     @Pointcut("execution(public void doNothing())")
     public void forModelPackageSetters(){}
 
     @Before("forModelPackageSetters()")
     public void beforeModelPackageSetters(){
-        log.info("Order 3 : beforeModelPackageSetters");
+        log.info("Order 2 : beforeModelPackageSetters");
     }
 }

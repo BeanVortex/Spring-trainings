@@ -5,11 +5,13 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 @Slf4j
+@Order(1)
 public class LoggingAspect {
 
     // Aspects will not work on entity classes because they won't get injected
