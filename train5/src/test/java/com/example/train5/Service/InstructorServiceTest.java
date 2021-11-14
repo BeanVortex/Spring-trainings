@@ -77,7 +77,7 @@ class InstructorServiceTest {
         var tmpCourse = new Course();
         tmpCourse.setId(courseId);
         student.addCourse(tmpCourse);
-        studentService.save(student);
+        studentService.saveStudent(student);
     }
 
     @Test
@@ -93,6 +93,7 @@ class InstructorServiceTest {
     void getInstructor() {
         var fetchedInstructor = service.get(id);
         assertThat(fetchedInstructor).isNotNull();
+        fetchedInstructor.doNothing();
     }
 
     @Test
@@ -126,5 +127,15 @@ class InstructorServiceTest {
         courseService.delete(courseId);
     }
 
+
+    @Test
+    @Order(10)
+    void aopTest(){
+        service.callMethod(5L);
+        studentService.doNothing();
+        var instructor= new Instructor();
+        instructor.doNothing();
+        instructor.setId(8L);
+    }
 
 }

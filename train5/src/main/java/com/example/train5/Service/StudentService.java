@@ -10,7 +10,12 @@ import org.springframework.stereotype.Service;
 public class StudentService {
     private final StudentRepo repo;
 
-    public Student save(Student student) {
+    public Student saveStudent(Student student) {
         return repo.save(student);
+    }
+
+
+    public void doNothing() {
+
     }
 }

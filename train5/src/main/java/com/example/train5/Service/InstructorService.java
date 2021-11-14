@@ -24,4 +24,8 @@ public class InstructorService {
     public void delete(Long id) {
         repo.deleteById(id);
     }
+
+    public void callMethod(Long l) {
+        System.out.println("Call method");
+    }
 }

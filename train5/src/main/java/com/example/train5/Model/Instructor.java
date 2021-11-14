@@ -26,8 +26,7 @@ public class Instructor {
     @OneToOne(cascade = CascadeType.ALL)
     private InstructorDetail instructorDetail;
 
-    @OneToMany(mappedBy = "instructor", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "instructor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Course> courses;
 
     public void addCourse(Course course) {
@@ -35,5 +34,9 @@ public class Instructor {
             courses = new ArrayList<>();
         course.setInstructor(this);
         courses.add(course);
+    }
+
+    public void doNothing() {
+
     }
 }
