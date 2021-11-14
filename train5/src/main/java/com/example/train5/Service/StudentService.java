@@ -15,7 +15,7 @@ public class StudentService {
     }
 
 
-    public void doNothing() {
-
+    public void doNothing(long dd) {
+        System.out.println(dd);
     }
 }

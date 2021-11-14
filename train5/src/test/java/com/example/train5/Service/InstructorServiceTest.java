@@ -132,7 +132,7 @@ class InstructorServiceTest {
     @Order(10)
     void aopTest(){
         service.callMethod(5L);
-        studentService.doNothing();
+        studentService.doNothing(56L);
         var instructor= new Instructor();
         instructor.doNothing();
         instructor.setId(8L);

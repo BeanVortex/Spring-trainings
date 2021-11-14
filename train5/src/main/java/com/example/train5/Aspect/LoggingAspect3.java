@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Order(2)
 public class LoggingAspect3 {
 
-    @Pointcut("execution(public void doNothing())")
+    @Pointcut("execution(public void doNothing(..))")
     public void forModelPackageSetters(){}
 
     @Before("forModelPackageSetters()")
