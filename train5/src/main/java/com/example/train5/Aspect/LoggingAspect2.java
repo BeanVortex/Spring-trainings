@@ -10,6 +10,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,8 +42,18 @@ public class LoggingAspect2 {
         log.info("Order 3 : beforeModelPackageSetters " + param);
     }
 
+    @AfterReturning(value = "execution(* returnString(..))", returning = "result")
+    public void afterReturnString(JoinPoint joinPoint, List<String> result) {
+        var method = joinPoint.getSignature().toShortString();
+        log.info("After returning on method: " + method + ", result: " + result);
+        // abstract list is immutable
+        // every return types from methods are immutable
+        if (!(result instanceof AbstractList))
+            result.add("ghf");
+
+    }
     @AfterReturning(value = "execution(* returnNothing(..))", returning = "result")
-    public void afterReturnNothing(JoinPoint joinPoint, List<String> result) {
+    public void afterReturnNothing(JoinPoint joinPoint, Object result) {
         var method = joinPoint.getSignature().toShortString();
         log.info("After returning on method: " + method + "result: " + result);
     }

@@ -137,6 +137,8 @@ class InstructorServiceTest {
         instructor.doNothing();
         instructor.setId(8L);
         studentService.returnNothing();
+        var res = studentService.returnString();
+        System.out.println(res);
     }
 
 }

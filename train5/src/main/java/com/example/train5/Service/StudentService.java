@@ -22,7 +22,9 @@ public class StudentService {
         System.out.println(dd);
     }
 
-    public List<String> returnNothing(){
+    public List<String> returnString(){
         return Arrays.asList("fads","sadf","adsf");
+    }
+    public void returnNothing(){
     }
 }
