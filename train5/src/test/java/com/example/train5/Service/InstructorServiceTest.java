@@ -2,6 +2,7 @@ package com.example.train5.Service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.in;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 // import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -139,6 +140,18 @@ class InstructorServiceTest {
         studentService.returnNothing();
         var res = studentService.returnString();
         System.out.println(res);
+    }
+
+    @Test
+    @Order(11)
+    void aopThrowException() {
+        assertThrows(Exception.class, studentService::throwException);
+    }
+    @Test
+    @Order(12)
+    void aopAfter() {
+        assertThrows(Exception.class, studentService::afterAnnException);
+        studentService.afterAnnNothing();
     }
 
 }
