@@ -147,11 +147,18 @@ class InstructorServiceTest {
     void aopThrowException() {
         assertThrows(Exception.class, studentService::throwException);
     }
+
     @Test
     @Order(12)
     void aopAfter() {
         assertThrows(Exception.class, studentService::afterAnnException);
         studentService.afterAnnNothing();
+    }
+
+    @Test
+    @Order(13)
+    void aopAround() throws InterruptedException {
+        studentService.simpleThreadMethod();
     }
 
 }

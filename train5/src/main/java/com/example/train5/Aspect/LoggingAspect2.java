@@ -2,6 +2,7 @@ package com.example.train5.Aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.hibernate.mapping.Join;
@@ -68,5 +69,19 @@ public class LoggingAspect2 {
     @After("execution(* afterAnn*(..))")
     public void after(JoinPoint joinPoint) {
         log.warn("ran method : " + joinPoint.getSignature().toShortString());
+    }
+
+    // use case for example:  Profiling code, checking how long does it take to execute
+    // runs before and after method execution
+    @Around("execution(* simpleThreadMethod(..))")
+    public Object aroundPrintMethod(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        long begin = System.currentTimeMillis();
+        System.out.println("before proceeding");
+        var result = proceedingJoinPoint.proceed();
+        System.out.println("after proceeding");
+        long end = System.currentTimeMillis();
+        long dur = end - begin;
+        log.info("Took " + dur + "ms to execute " + proceedingJoinPoint.getSignature().toShortString());
+        return result;
     }
 }

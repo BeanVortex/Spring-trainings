@@ -41,4 +41,9 @@ public class StudentService {
     public void afterAnnNothing() {
 
     }
+
+    public void simpleThreadMethod() throws InterruptedException {
+        System.out.println("proceeding");
+        Thread.sleep(2500);
+    }
 }
