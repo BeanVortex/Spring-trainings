@@ -5,6 +5,9 @@ import com.example.train5.Repo.StudentRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class StudentService {
@@ -17,5 +20,9 @@ public class StudentService {
 
     public void doNothing(long dd) {
         System.out.println(dd);
+    }
+
+    public List<String> returnNothing(){
+        return Arrays.asList("fads","sadf","adsf");
     }
 }

@@ -130,12 +130,13 @@ class InstructorServiceTest {
 
     @Test
     @Order(10)
-    void aopTest(){
+    void aopTest() {
         service.callMethod(5L);
         studentService.doNothing(56L);
-        var instructor= new Instructor();
+        var instructor = new Instructor();
         instructor.doNothing();
         instructor.setId(8L);
+        studentService.returnNothing();
     }
 
 }
