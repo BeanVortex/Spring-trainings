@@ -8,8 +8,11 @@
   Time: 5:38 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
+    <head>
+        <title>Title</title>
+    </head>
     <body>
         <p>
             Welcome ....
@@ -25,14 +28,18 @@
             Roles : <security:authentication property="principal.authorities"/>
         </p>
 
-        <p>
-            <a href="${pageContext.request.contextPath}/systems">Systmes</a>
-        </p>
-        <p>
-            <a href="${pageContext.request.contextPath}/leaders">Leaders</a>
-        </p>
+        <security:authorize access="hasRole('ADMIN')">
+
+            <p>
+                <a href="${pageContext.request.contextPath}/systems">Systems</a>
+            </p>
+        </security:authorize>
+
+        <security:authorize access="hasRole('MANAGER')">
+            <p>
+                <a href="${pageContext.request.contextPath}/leaders">Leaders</a>
+            </p>
+        </security:authorize>
+
     </body>
-    <head>
-        <title>Title</title>
-    </head>
 </html>
