@@ -1,3 +1,6 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: darkdeveloper
@@ -7,10 +10,29 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+    <body>
+        <p>
+            Welcome ....
+        </p>
+        <form:form action="${pageContext.request.contextPath}/logout" method="post">
+            <input type="submit" value="logout">
+        </form:form>
+
+        <p>
+            User : <security:authentication property="principal.username"/>
+        </p>
+        <p>
+            Roles : <security:authentication property="principal.authorities"/>
+        </p>
+
+        <p>
+            <a href="${pageContext.request.contextPath}/systems">Systmes</a>
+        </p>
+        <p>
+            <a href="${pageContext.request.contextPath}/leaders">Leaders</a>
+        </p>
+    </body>
     <head>
         <title>Title</title>
     </head>
-    <body>
-        Welcome ....
-    </body>
 </html>
