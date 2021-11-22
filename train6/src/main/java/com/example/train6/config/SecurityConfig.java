@@ -1,7 +1,10 @@
 package com.example.train6.config;
 
+import com.example.train6.config.handlers.LoginSuccessHandler;
+import com.example.train6.config.handlers.LogoutSuccessHandler;
 import com.example.train6.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,15 +13,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService us;
+    private LoginSuccessHandler loginSuccessHandler;
+    private LogoutSuccessHandler logoutSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -30,12 +35,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .successHandler(loginSuccessHandler)
                 .loginProcessingUrl("/authUser")
                 .passwordParameter("pass")
                 .usernameParameter("user")
                 .permitAll()
                 .and()
-                .logout().permitAll()
+                .rememberMe().rememberMeCookieName("rem").rememberMeParameter("remember").tokenValiditySeconds(60)
+                .and()
+                .logout().logoutSuccessHandler(logoutSuccessHandler)
+                .deleteCookies("rem", "JSESSIONID")
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/access-denied");

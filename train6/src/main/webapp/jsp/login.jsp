@@ -80,6 +80,12 @@
 
                                 <input type="password" name="pass" placeholder="password" class="form-control">
                             </div>
+                            <div style="margin-bottom: 25px" class="form-check">
+                                <input type="checkbox" name="remember" class="form-check-input" id="remember-me">
+                                <label class="form-check-label" for="remember-me">
+                                    Remember me
+                                </label>
+                            </div>
 
                             <!-- Login/Submit Button -->
                             <div style="margin-top: 10px" class="form-group">
