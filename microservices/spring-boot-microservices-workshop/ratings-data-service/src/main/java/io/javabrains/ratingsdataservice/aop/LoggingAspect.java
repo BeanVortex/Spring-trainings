@@ -1,4 +1,4 @@
-package io.javabrains.movieinfoservice.aop;
+package io.javabrains.ratingsdataservice.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class LoggingAspect {
 
-    @Before("execution(* getMovieInfo(..))")
+    @Before("execution(* getRatings(..))")
     private void logGetMovieInfo() {
-        log.info("Getting movies info");
+        log.info("Getting ratings");
     }
 }
