@@ -1,10 +1,9 @@
 package ir.darkdeveloper.moviecatalogservice.service;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import ir.darkdeveloper.moviecatalogservice.model.Rating;
 import ir.darkdeveloper.moviecatalogservice.model.UserRating;
 import lombok.AllArgsConstructor;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,24 +13,20 @@ import java.util.List;
 @AllArgsConstructor
 public class UserRatingInfo {
 
+    private final CircuitBreakerFactory breakerFactory;
     private final RestTemplate restTemplate;
 
 
-    @HystrixCommand(fallbackMethod = "getFallbackUserRating",
-    commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
-            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
-            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000"),
-    })
     public UserRating getUserRating(String userId) {
-        return restTemplate.getForObject("http://ratings-data-service/ratings/user/" + userId, UserRating.class);
+        var circuitBreaker = breakerFactory.create("userRatingBreaker");
+        var url = "http://ratings-data-service/ratings/user/" + userId;
+
+        return circuitBreaker.run(
+                () -> restTemplate.getForObject(url, UserRating.class),
+                throwable -> new UserRating(List.of(new Rating("-1", -10)))
+        );
     }
 
-
-    public UserRating getFallbackUserRating(String userId) {
-        return new UserRating(List.of(new Rating("-1", -10)));
-    }
 
 }
 
