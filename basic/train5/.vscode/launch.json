@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Train5Application<train5>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.example.train5.Train5Application",
+            "projectName": "train5",
+            "args": ""
+        }
+    ]
+}

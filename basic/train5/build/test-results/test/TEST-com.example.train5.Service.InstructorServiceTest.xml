@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.train5.Service.InstructorServiceTest" tests="13" skipped="3" failures="0" errors="0" timestamp="2021-11-15T13:22:25" hostname="Arch" time="2.809">
+  <properties/>
+  <testcase name="saveInstructorAndDetailCascading()" classname="com.example.train5.Service.InstructorServiceTest" time="0.135"/>
+  <testcase name="saveCourseAndReviewCascading()" classname="com.example.train5.Service.InstructorServiceTest" time="0.028"/>
+  <testcase name="saveStudentForCourse()" classname="com.example.train5.Service.InstructorServiceTest" time="0.02"/>
+  <testcase name="getDetail()" classname="com.example.train5.Service.InstructorServiceTest" time="0.055"/>
+  <testcase name="getInstructor()" classname="com.example.train5.Service.InstructorServiceTest" time="0.004"/>
+  <testcase name="getCourses()" classname="com.example.train5.Service.InstructorServiceTest" time="0.011"/>
+  <testcase name="delete()" classname="com.example.train5.Service.InstructorServiceTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="deleteDetail()" classname="com.example.train5.Service.InstructorServiceTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="deleteCourse()" classname="com.example.train5.Service.InstructorServiceTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="aopTest()" classname="com.example.train5.Service.InstructorServiceTest" time="0.007"/>
+  <testcase name="aopThrowException()" classname="com.example.train5.Service.InstructorServiceTest" time="0.004"/>
+  <testcase name="aopAfter()" classname="com.example.train5.Service.InstructorServiceTest" time="0.007"/>
+  <testcase name="aopAround()" classname="com.example.train5.Service.InstructorServiceTest" time="2.522"/>
+  <system-out><![CDATA[16:52:21.668 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+16:52:21.676 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+16:52:21.702 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.example.train5.Service.InstructorServiceTest] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+16:52:21.711 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.example.train5.Service.InstructorServiceTest], using SpringBootContextLoader
+16:52:21.714 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.example.train5.Service.InstructorServiceTest]: class path resource [com/example/train5/Service/InstructorServiceTest-context.xml] does not exist
+16:52:21.714 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.example.train5.Service.InstructorServiceTest]: class path resource [com/example/train5/Service/InstructorServiceTestContext.groovy] does not exist
+16:52:21.715 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.example.train5.Service.InstructorServiceTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+16:52:21.715 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.train5.Service.InstructorServiceTest]: InstructorServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:52:21.747 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.example.train5.Service.InstructorServiceTest]
+16:52:21.800 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [/home/darkdeveloper/Developing/SpringProjects/train/train5/build/classes/java/main/com/example/train5/Train5Application.class]
+16:52:21.801 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.train5.Train5Application for test class com.example.train5.Service.InstructorServiceTest
+16:52:21.869 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.example.train5.Service.InstructorServiceTest]: using defaults.
+16:52:21.870 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener]
+16:52:21.880 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@14f5da2c, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@12dae582, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@239b0f9d, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@619bfe29, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@5b057c8c, org.springframework.test.context.support.DirtiesContextTestExecutionListener@1eb6749b, org.springframework.test.context.transaction.TransactionalTestExecutionListener@652a7737, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@5b7ea70d, org.springframework.test.context.event.EventPublishingTestExecutionListener@2bef51f2, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@650eab8, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@30f5a68a, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@1e1d3956, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@4f2c9ba6, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@4e28bdd1, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@53f48368]
+16:52:21.882 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@4264b240 testClass = InstructorServiceTest, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@5b04476e testClass = InstructorServiceTest, locations = '{}', classes = '{class com.example.train5.Train5Application}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@51fadaff, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@146dfe6, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@6af9fcb2, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@291a7e3c, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@3abada5a, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@313b2ea6], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true]], class annotated with @DirtiesContext [true] with mode [AFTER_CLASS].
+16:52:21.904 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.6)
+
+2021-11-15 16:52:22.137  INFO 475695 --- [    Test worker] c.e.t.Service.InstructorServiceTest      : Starting InstructorServiceTest using Java 17 on Arch with PID 475695 (started by darkdeveloper in /home/darkdeveloper/Developing/SpringProjects/train/train5)
+2021-11-15 16:52:22.147  INFO 475695 --- [    Test worker] c.e.t.Service.InstructorServiceTest      : No active profile set, falling back to default profiles: default
+2021-11-15 16:52:22.665  INFO 475695 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-11-15 16:52:22.709  INFO 475695 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 39 ms. Found 4 JPA repository interfaces.
+2021-11-15 16:52:23.263  INFO 475695 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-11-15 16:52:23.297  INFO 475695 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-11-15 16:52:23.387  INFO 475695 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-11-15 16:52:23.454  INFO 475695 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-11-15 16:52:23.531  INFO 475695 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-11-15 16:52:23.550  INFO 475695 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+Hibernate: alter table if exists course drop constraint if exists FKqk2yq2yk124dhlsilomy36qr9
+Hibernate: alter table if exists instructor drop constraint if exists FK3d5vk5dflv2007pq4d3auageh
+Hibernate: alter table if exists review drop constraint if exists FKprox8elgnr8u5wrq1983degk
+Hibernate: alter table if exists student_course drop constraint if exists FKejrkh4gv8iqgmspsanaji90ws
+Hibernate: alter table if exists student_course drop constraint if exists FKq7yw2wg9wlt2cnj480hcdn6dq
+Hibernate: drop table if exists course cascade
+Hibernate: drop table if exists instructor cascade
+Hibernate: drop table if exists instructor_detail cascade
+Hibernate: drop table if exists review cascade
+Hibernate: drop table if exists student cascade
+Hibernate: drop table if exists student_course cascade
+Hibernate: drop sequence if exists hibernate_sequence
+Hibernate: create sequence hibernate_sequence start 1 increment 1
+Hibernate: create table course (id int8 not null, title varchar(255), instructor_id int8, primary key (id))
+Hibernate: create table instructor (id int8 not null, email varchar(255), first_name varchar(255), last_name varchar(255), instructor_detail int8, primary key (id))
+Hibernate: create table instructor_detail (id int8 not null, hobby varchar(255), youtube_channel varchar(255), primary key (id))
+Hibernate: create table review (id int8 not null, review varchar(255), course_id int8, primary key (id))
+Hibernate: create table student (id int8 not null, email varchar(255), first_name varchar(255), last_name varchar(255), primary key (id))
+Hibernate: create table student_course (student_id int8 not null, course_id int8 not null)
+Hibernate: alter table if exists course add constraint FKqk2yq2yk124dhlsilomy36qr9 foreign key (instructor_id) references instructor
+Hibernate: alter table if exists instructor add constraint FK3d5vk5dflv2007pq4d3auageh foreign key (instructor_detail) references instructor_detail
+Hibernate: alter table if exists review add constraint FKprox8elgnr8u5wrq1983degk foreign key (course_id) references course
+Hibernate: alter table if exists student_course add constraint FKejrkh4gv8iqgmspsanaji90ws foreign key (course_id) references course
+Hibernate: alter table if exists student_course add constraint FKq7yw2wg9wlt2cnj480hcdn6dq foreign key (student_id) references student
+2021-11-15 16:52:24.619  INFO 475695 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-11-15 16:52:24.626  INFO 475695 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-11-15 16:52:25.427  WARN 475695 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-11-15 16:52:25.962  INFO 475695 --- [    Test worker] c.e.t.Service.InstructorServiceTest      : Started InstructorServiceTest in 4.048 seconds (JVM running for 4.813)
+2021-11-15 16:52:26.059 ERROR 475695 --- [    Test worker] com.example.train5.Aspect.LoggingAspect  : RUNNING ASPECT: beforeGetOrSaveInstructor
+Hibernate: select nextval ('hibernate_sequence')
+Hibernate: select nextval ('hibernate_sequence')
+Hibernate: insert into instructor_detail (hobby, youtube_channel, id) values (?, ?, ?)
+Hibernate: insert into instructor (email, first_name, instructor_detail, last_name, id) values (?, ?, ?, ?, ?)
+Hibernate: select nextval ('hibernate_sequence')
+Hibernate: select nextval ('hibernate_sequence')
+Hibernate: insert into course (instructor_id, title, id) values (?, ?, ?)
+Hibernate: insert into review (review, id) values (?, ?)
+Hibernate: update review set course_id=? where id=?
+2021-11-15 16:52:26.144  WARN 475695 --- [    Test worker] com.example.train5.Aspect.LoggingAspect  : RUNNING ASPECT: before save method
+Hibernate: select nextval ('hibernate_sequence')
+Hibernate: insert into student (email, first_name, last_name, id) values (?, ?, ?, ?)
+Hibernate: insert into student_course (student_id, course_id) values (?, ?)
+Hibernate: select instructor0_.id as id1_2_0_, instructor0_.hobby as hobby2_2_0_, instructor0_.youtube_channel as youtube_3_2_0_, instructor1_.id as id1_1_1_, instructor1_.email as email2_1_1_, instructor1_.first_name as first_na3_1_1_, instructor1_.instructor_detail as instruct5_1_1_, instructor1_.last_name as last_nam4_1_1_, courses2_.instructor_id as instruct3_0_2_, courses2_.id as id1_0_2_, courses2_.id as id1_0_3_, courses2_.instructor_id as instruct3_0_3_, courses2_.title as title2_0_3_ from instructor_detail instructor0_ left outer join instructor instructor1_ on instructor0_.id=instructor1_.instructor_detail left outer join course courses2_ on instructor1_.id=courses2_.instructor_id where instructor0_.id=?
+com.example.train5.Model.InstructorDetail@2c28654e
+2021-11-15 16:52:26.221 ERROR 475695 --- [    Test worker] com.example.train5.Aspect.LoggingAspect  : RUNNING ASPECT: beforeGetOrSaveInstructor
+Hibernate: select instructor0_.id as id1_1_0_, instructor0_.email as email2_1_0_, instructor0_.first_name as first_na3_1_0_, instructor0_.instructor_detail as instruct5_1_0_, instructor0_.last_name as last_nam4_1_0_, courses1_.instructor_id as instruct3_0_1_, courses1_.id as id1_0_1_, courses1_.id as id1_0_2_, courses1_.instructor_id as instruct3_0_2_, courses1_.title as title2_0_2_, instructor2_.id as id1_2_3_, instructor2_.hobby as hobby2_2_3_, instructor2_.youtube_channel as youtube_3_2_3_ from instructor instructor0_ left outer join course courses1_ on instructor0_.id=courses1_.instructor_id left outer join instructor_detail instructor2_ on instructor0_.instructor_detail=instructor2_.id where instructor0_.id=?
+2021-11-15 16:52:26.223 ERROR 475695 --- [    Test worker] com.example.train5.Aspect.LoggingAspect  : RUNNING ASPECT: afterGetInstructor
+2021-11-15 16:52:26.226 ERROR 475695 --- [    Test worker] com.example.train5.Aspect.LoggingAspect  : RUNNING ASPECT: beforeGetOrSaveInstructor
+Hibernate: select instructor0_.id as id1_1_0_, instructor0_.email as email2_1_0_, instructor0_.first_name as first_na3_1_0_, instructor0_.instructor_detail as instruct5_1_0_, instructor0_.last_name as last_nam4_1_0_, courses1_.instructor_id as instruct3_0_1_, courses1_.id as id1_0_1_, courses1_.id as id1_0_2_, courses1_.instructor_id as instruct3_0_2_, courses1_.title as title2_0_2_, instructor2_.id as id1_2_3_, instructor2_.hobby as hobby2_2_3_, instructor2_.youtube_channel as youtube_3_2_3_ from instructor instructor0_ left outer join course courses1_ on instructor0_.id=courses1_.instructor_id left outer join instructor_detail instructor2_ on instructor0_.instructor_detail=instructor2_.id where instructor0_.id=?
+2021-11-15 16:52:26.228 ERROR 475695 --- [    Test worker] com.example.train5.Aspect.LoggingAspect  : RUNNING ASPECT: afterGetInstructor
+Hibernate: select reviews0_.course_id as course_i3_3_0_, reviews0_.id as id1_3_0_, reviews0_.id as id1_3_1_, reviews0_.review as review2_3_1_ from review reviews0_ where reviews0_.course_id=?
+Course(id=3, title=fasd, instructor=com.example.train5.Model.Instructor@6f53f5a4, reviews=[Review(id=4, review=review for a course)])
+Call method
+2021-11-15 16:52:26.245  INFO 475695 --- [    Test worker] c.example.train5.Aspect.LoggingAspect3   : Order 2 : beforeModelPackageSetters
+getArgs: [56]
+getSignature.getDeclaringTypeName: com.example.train5.Service.StudentService
+getSignature.getName: doNothing
+getSignature.getMethod: public void com.example.train5.Service.StudentService.doNothing(long)
+getSignature.getModifiers: 1
+getKind: method-execution
+getTarget: com.example.train5.Service.StudentService@84becbe
+getSourceLocation: org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint$SourceLocationImpl@90b9695
+getStaticPart: execution(void com.example.train5.Service.StudentService.doNothing(long))
+getThis: com.example.train5.Service.StudentService@84becbe
+2021-11-15 16:52:26.247  INFO 475695 --- [    Test worker] c.example.train5.Aspect.LoggingAspect2   : Order 3 : beforeModelPackageSetters 56
+
+56
+2021-11-15 16:52:26.248  INFO 475695 --- [    Test worker] c.example.train5.Aspect.LoggingAspect2   : After returning on method: StudentService.returnNothing()result: null
+2021-11-15 16:52:26.249  INFO 475695 --- [    Test worker] c.example.train5.Aspect.LoggingAspect2   : After returning on method: StudentService.returnString(), result: [fads, sadf, adsf]
+[fads, sadf, adsf]
+2021-11-15 16:52:26.254 ERROR 475695 --- [    Test worker] c.example.train5.Aspect.LoggingAspect2   : Exception on method: execution(StudentService.throwException()) 
+Exception: Bad request exception 400
+2021-11-15 16:52:26.258  WARN 475695 --- [    Test worker] c.example.train5.Aspect.LoggingAspect2   : ran method : StudentService.afterAnnException()
+2021-11-15 16:52:26.261  WARN 475695 --- [    Test worker] c.example.train5.Aspect.LoggingAspect2   : ran method : StudentService.afterAnnNothing()
+before proceeding
+proceeding
+after proceeding
+2021-11-15 16:52:28.775  INFO 475695 --- [    Test worker] c.example.train5.Aspect.LoggingAspect2   : Took 2501ms to execute StudentService.simpleThreadMethod()
+2021-11-15 16:52:28.793  INFO 475695 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-11-15 16:52:28.797  INFO 475695 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-11-15 16:52:28.804  INFO 475695 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
