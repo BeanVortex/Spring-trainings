@@ -18,7 +18,6 @@ public class MovieInfoController {
 
     @GetMapping("/{movieId}")
     public Movie getMovieInfo(@PathVariable String movieId) throws InterruptedException {
-//        System.out.println("dsa");
 //        Thread.sleep(5000);
         return repo.findById(movieId).orElse(null);
     }
