@@ -11,3 +11,8 @@ db:
   host: localhost
 
 management.endpoints.web.exposure.include: "*"
+
+spring:
+  profiles:
+    active: test
+    include: included

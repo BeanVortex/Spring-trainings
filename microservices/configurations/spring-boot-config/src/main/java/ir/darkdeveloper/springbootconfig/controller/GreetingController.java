@@ -1,5 +1,6 @@
 package ir.darkdeveloper.springbootconfig.controller;
 
+import ir.darkdeveloper.springbootconfig.beans.parent;
 import ir.darkdeveloper.springbootconfig.config.DBSettings;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,10 @@ public class GreetingController {
 
     private final DBSettings dbSettings;
 
+    private final parent f;
+
     @GetMapping("/greeting")
-    public String greet(){
+    public String greet() {
         return greet + " " + list + " " + map + " " + dbSettings;
     }
 }

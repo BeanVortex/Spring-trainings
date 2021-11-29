@@ -1,0 +1,13 @@
+greet.message: HelloConfigsTest
+app:
+  name: sadvsad
+  description: welcome to ${app.name}
+  list: One,Two,dsa
+  map: "{key1: 'value1', key2: 'value2', key3: 'value3'}"
+
+db:
+  connection: jdbc:awss/...
+  port: 5553
+  host: dsa
+
+management.endpoints.web.exposure.include: "*"
