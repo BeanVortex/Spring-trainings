@@ -1,0 +1,13 @@
+greet.message: HelloConfigs
+app:
+  name: nameappName
+  description: welcome to ${app.name}
+  list: One,Two,Three
+  map: "{key1: 'value1', key2: 'value2', key3: 'value3'}"
+
+db:
+  connection: jdbc:postgresql/localhost/...
+  port: 5432
+  host: localhost
+
+management.endpoints.web.exposure.include: "*"
