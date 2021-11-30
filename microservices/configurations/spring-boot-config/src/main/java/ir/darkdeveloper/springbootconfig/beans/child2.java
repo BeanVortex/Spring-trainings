@@ -4,6 +4,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("deploy")
+//@Profile("deploy")
 public class child2 implements parent {
 }

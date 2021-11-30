@@ -5,6 +5,7 @@ import ir.darkdeveloper.springbootconfig.config.DBSettings;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,12 +25,17 @@ public class GreetingController {
     @Value("#{${app.map}}")
     private Map<String, String> map;
 
+    @Value("${spring-boot-config.app.name: dsaf}")
+    private String appNameFromCloudSpecificConfig;
+
     private final DBSettings dbSettings;
 
-    private final parent f;
+//    private final parent f;
+
+    private final Environment env;
 
     @GetMapping("/greeting")
     public String greet() {
-        return greet + " " + list + " " + map + " " + dbSettings;
+        return greet + " " + list + " " + map + " " + dbSettings + "\n\n" + env + "\n\n" + appNameFromCloudSpecificConfig;
     }
 }
