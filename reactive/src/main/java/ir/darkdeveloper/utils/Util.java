@@ -16,14 +16,17 @@ public class Util {
         return err -> System.out.println("ERROR: " + err.getMessage());
     }
 
-    public static Runnable onComplete() {
-        return () -> System.out.println("Completed");
+    public static Runnable onComplete(String message) {
+        if (message == null)
+            message = "";
+        final String finalMessage = message;
+        return () -> System.out.println("Completed " + finalMessage);
     }
 
     public static Faker faker() {
         return FAKER;
     }
-    
+
     public static void sleep(int seconds) {
         try {
             Thread.sleep(seconds * 1000);

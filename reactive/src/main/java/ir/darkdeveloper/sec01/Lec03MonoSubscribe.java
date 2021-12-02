@@ -24,6 +24,6 @@ public class Lec03MonoSubscribe {
         mono.subscribe(
                 Util.onNext(),
                 Util.onError(),
-                Util.onComplete());
+                Util.onComplete(null));
     }
 }

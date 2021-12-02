@@ -11,7 +11,7 @@ public class Lec04MonoEmptyOrError {
                 .subscribe(
                         Util.onNext(),
                         Util.onError(),
-                        Util.onComplete());
+                        Util.onComplete(null));
 
     }
 

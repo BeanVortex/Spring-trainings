@@ -2,13 +2,28 @@ package ir.darkdeveloper.sec01;
 
 import ir.darkdeveloper.utils.Util;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 public class Lec06SupplierRefactoring {
 
     public static void main(String[] args) {
+
+        /*   
         getName();
+        getName()
+                .subscribeOn(Schedulers.boundedElastic())
+                .subscribe(Util.onNext());
         getName();
-        getName().subscribe();
+        Util.sleep(4);
+        */
+
+        getName();
+        String data = getName()
+                .subscribeOn(Schedulers.boundedElastic())
+                .block();
+        System.out.println(data);
+        getName();
+
     }
 
     private static Mono<String> getName() {
