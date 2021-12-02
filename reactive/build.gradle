@@ -1,0 +1,43 @@
+
+
+plugins {
+    id 'application'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+sourceCompatibility = '17'
+
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+    implementation "io.projectreactor:reactor-core:3.4.12"
+	implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'com.github.javafaker:javafaker:1.0.2'
+    implementation 'org.yaml:snakeyaml:1.29'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+
+	testImplementation 'org.projectlombok:lombok:1.18.22'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testImplementation "io.projectreactor:reactor-test:3.4.12"
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+}
+
+application {
+    mainClass = 'ir.darkdeveloper.App'
+}
+
+dependencyManagement{
+    imports {
+        mavenBom "io.projectreactor:reactor-bom:2020.0.2"
+    }
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}
