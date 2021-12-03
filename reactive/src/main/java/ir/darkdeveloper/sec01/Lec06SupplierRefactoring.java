@@ -8,7 +8,7 @@ public class Lec06SupplierRefactoring {
 
     public static void main(String[] args) {
 
-        /*   
+        /*        
         getName();
         getName()
                 .subscribeOn(Schedulers.boundedElastic())
