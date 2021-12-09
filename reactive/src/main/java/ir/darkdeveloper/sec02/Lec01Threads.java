@@ -10,8 +10,8 @@ public class Lec01Threads {
         var tTest = new ThreadTest();
         var t1 = new Thread(() -> tTest.increment());
         var t2 = new Thread(() -> tTest.decrement());
-        t1.start();
         t2.start();
+        t1.start();
 
     }
 
@@ -20,23 +20,31 @@ public class Lec01Threads {
 class ThreadTest {
 
     List<Integer> x = new ArrayList<>();
-    int z = 0;
 
-    public synchronized void increment() {
+    public void increment() {
         try {
-            System.out.println("increment " + Thread.currentThread());
-            x.add(23);
-            z++;
+            synchronized (x) {
+                x.add(23);
+                x.notify();
+                System.out.println("increment " + Thread.currentThread());
+            }
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public synchronized void decrement() {
-        System.out.println("decrement " + Thread.currentThread());
-        x.remove(0);
-        z--;
+    public void decrement() {
+        synchronized (x) {
+            while (x.size() == 0)
+                try {
+                    x.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            x.remove(0);
+            System.out.println("decrement " + Thread.currentThread());
+        }
     }
 
 }
