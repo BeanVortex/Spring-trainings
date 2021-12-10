@@ -22,15 +22,10 @@ class ThreadTest {
     List<Integer> x = new ArrayList<>();
 
     public void increment() {
-        try {
-            synchronized (x) {
-                x.add(23);
-                x.notify();
-                System.out.println("increment " + Thread.currentThread());
-            }
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        synchronized (x) {
+            x.add(23);
+            x.notify();
+            System.out.println("increment " + Thread.currentThread());
         }
     }
 
@@ -42,8 +37,8 @@ class ThreadTest {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            x.remove(0);
-            System.out.println("decrement " + Thread.currentThread());
+            var fetched = x.remove(0);
+            System.out.println("decrement " + fetched + " " + Thread.currentThread());
         }
     }
 
