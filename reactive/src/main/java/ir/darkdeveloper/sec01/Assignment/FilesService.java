@@ -34,18 +34,16 @@ public class FilesService {
         }
     }
 
-    private static boolean deleteFile(String filename) {
+    private static void deleteFile(String filename) {
         try {
             Files.delete(PATH.resolve(filename));
-            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public static Mono<String> read(String filename) {
-        return Mono.fromCallable(() -> readFile(filename));
+        return Mono.fromSupplier(() -> readFile(filename));
     }
 
     public static Mono<Void> write(String filename, String data, boolean append) {
