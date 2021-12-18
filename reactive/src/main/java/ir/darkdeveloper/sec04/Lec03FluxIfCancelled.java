@@ -3,9 +3,10 @@ package ir.darkdeveloper.sec04;
 import ir.darkdeveloper.utils.Util;
 import reactor.core.publisher.Flux;
 
-public class Sec03FluxIfCancelled {
+public class Lec03FluxIfCancelled {
 
     public static void main(String[] args) {
+        // only one stance of flux sink
         Flux.create(fluxSink -> {
 
             var country = Util.faker().country().name();
