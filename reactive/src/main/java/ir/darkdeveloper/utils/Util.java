@@ -4,6 +4,8 @@ import java.util.function.Consumer;
 
 import com.github.javafaker.Faker;
 
+import org.reactivestreams.Subscriber;
+
 public class Util {
 
     private static final Faker FAKER = Faker.instance();
@@ -33,6 +35,14 @@ public class Util {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Subscriber<Object> subscriber() {
+        return new DefaultSubscriber();
+    }
+
+    public static Subscriber<Object> subscriber(String name) {
+        return new DefaultSubscriber(name);
     }
 
 }
