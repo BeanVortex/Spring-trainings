@@ -9,10 +9,11 @@ public class Lec06FluxPush {
     public static void main(String[] args) {
 
         var nameProducerCreate = new NameProducerCreate();
-
-        // create is thread safe but push is not
+        // create is thread safe but
         Flux.push(nameProducerCreate)
                 .subscribe(Util.subscriber());
+
+        nameProducerCreate.produce();
 
         Runnable run = nameProducerCreate::produce;
 
