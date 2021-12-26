@@ -21,6 +21,9 @@ function connect() {
         stompClient.subscribe('/topic/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body));
         });
+        stompClient.subscribe('/topic/err', function (greeting) {
+            showGreeting(JSON.parse(greeting.body));
+        });
     });
 }
 
