@@ -16,7 +16,7 @@ public class Lec06CompletableFuture {
 
     private static void process(CompletableFuture<Integer> future) {
         future
-                .thenApply(data -> data / 0)
+                .thenApply(data -> data / 2)
                 .exceptionally(Lec06CompletableFuture::handle)
                 .thenApply(data -> data * 2)
                 .thenApply(data -> data + 5)

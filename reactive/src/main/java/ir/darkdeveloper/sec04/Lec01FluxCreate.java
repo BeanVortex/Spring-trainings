@@ -29,12 +29,12 @@ public class Lec01FluxCreate {
         Runnable run = nameProducerCreate::produce;
 
         // Flux Sink is thread safe
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) 
             new Thread(run).start();
-        }
+        
 
         Util.sleep(2);
-
+        
     }
 
 }
