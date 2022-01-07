@@ -5,14 +5,12 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
 import java.util.function.IntSupplier;
 import static java.util.stream.Collectors.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class T1 {
+public class T1StreamFundamental {
 
     public static void main(String[] args) {
         var numbers = new int[] { 1, 2, 5, 6 };
@@ -64,10 +62,6 @@ public class T1 {
         // generate and iterate creates infinite streams so it should be reduced or limited
         IntStream.generate(fib).limit(10).forEach(System.out::println);
 
-        var list = List.of("ab", "b", "c");
-        System.out.println(list.stream().collect(counting()));
-        System.out.println(list.stream().count());
-        System.out.println(list.stream().collect(maxBy(Comparator.comparing(String::length))));
     }
 
 }
