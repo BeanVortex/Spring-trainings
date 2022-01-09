@@ -15,7 +15,12 @@ public class Lec03ComposingGroupings {
 
         var dishes = new Data().dishes();
 
+        
         // composing groupings
+        
+        int size = dishes.stream().collect(collectingAndThen(toList(), List::size));
+        System.out.println(size);
+        
         // for second argument of groupingBy we can use another collectors
         Map<Type, Map<CaloricLevel, List<Dish>>> dishesByTypeAndMaxCalory = dishes.stream()
                 .collect(groupingBy(Dish::type,

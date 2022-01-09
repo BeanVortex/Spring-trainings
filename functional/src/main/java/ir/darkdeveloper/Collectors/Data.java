@@ -37,6 +37,13 @@ enum Type {
 
 record Dish(String name, int calories, Type type) {
 
+    
+    boolean isVegetarian() {
+        if (type.equals(Type.VEGETABLE))
+            return true;
+        return false;
+    }
+
     @Override
     public String toString() {
         return name;
