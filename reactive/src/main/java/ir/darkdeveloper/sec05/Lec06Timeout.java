@@ -8,7 +8,6 @@ import reactor.core.publisher.Flux;
 public class Lec06Timeout {
 
     public static void main(String[] args) {
-
         getOrderNumbers()
                 .timeout(Duration.ofSeconds(5), fallback())
                 .subscribe(Util.subscriber());
