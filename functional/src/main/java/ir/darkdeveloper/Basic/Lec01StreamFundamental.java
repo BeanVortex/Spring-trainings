@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class T1StreamFundamental {
+public class Lec01StreamFundamental {
 
     public static void main(String[] args) {
         var numbers = new int[] { 1, 2, 5, 6 };
@@ -37,12 +37,12 @@ public class T1StreamFundamental {
                 .forEach(i -> System.out.print(i + " "));
 
         // java 9 enhanced version with support of predicate 
-        Stream.iterate(0, n -> n<10, n -> n+1)
-        .forEach(System.out::print);
+        Stream.iterate(0, n -> n < 10, n -> n + 1)
+                .forEach(System.out::print);
 
         Stream.generate(Math::random)
-        .limit(2)
-        .forEach(System.out::println);
+                .limit(2)
+                .forEach(System.out::println);
 
         var fib = new IntSupplier() {
 

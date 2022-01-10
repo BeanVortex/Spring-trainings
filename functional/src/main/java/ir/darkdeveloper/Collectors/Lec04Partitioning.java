@@ -6,9 +6,6 @@ import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.*;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-
 public class Lec04Partitioning {
 
     public static void main(String[] args) {
