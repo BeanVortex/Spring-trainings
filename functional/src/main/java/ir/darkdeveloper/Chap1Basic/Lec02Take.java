@@ -1,4 +1,4 @@
-package ir.darkdeveloper.Basic;
+package ir.darkdeveloper.Chap1Basic;
 
 import java.util.List;
 import static java.util.stream.Collectors.*;

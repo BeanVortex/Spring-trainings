@@ -1,4 +1,4 @@
-package ir.darkdeveloper.Collectors;
+package ir.darkdeveloper.Chap2Collectors;
 
 import java.util.List;
 

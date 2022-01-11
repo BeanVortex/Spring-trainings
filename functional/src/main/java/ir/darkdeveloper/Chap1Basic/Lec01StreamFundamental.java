@@ -1,4 +1,4 @@
-package ir.darkdeveloper.Basic;
+package ir.darkdeveloper.Chap1Basic;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

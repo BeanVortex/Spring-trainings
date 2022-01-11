@@ -1,4 +1,4 @@
-package ir.darkdeveloper.Collectors;
+package ir.darkdeveloper.Chap2Collectors;
 
 import static java.util.stream.Collectors.filtering;
 import static java.util.stream.Collectors.groupingBy;

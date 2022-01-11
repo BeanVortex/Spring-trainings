@@ -1,8 +1,8 @@
-
 plugins {
     id 'application'
     id 'java'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+//    id "me.champeau.jmh" version "0.6.6"
 }
 sourceCompatibility = '17'
 
@@ -10,15 +10,23 @@ sourceCompatibility = '17'
 repositories {
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
 }
 
 dependencies {
-	implementation 'org.projectlombok:lombok:1.18.22'
-	annotationProcessor 'org.projectlombok:lombok:1.18.22'
-	testImplementation 'org.projectlombok:lombok:1.18.22'
-	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.openjdk.jmh:jmh-core:1.34'
+    implementation 'org.openjdk.jmh:jmh-generator-annprocess:1.34'
+//    implementation 'me.champeau.gradle:jmh-gradle-plugin:0.6.6'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
 }
 
 application {
@@ -28,3 +36,4 @@ application {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
