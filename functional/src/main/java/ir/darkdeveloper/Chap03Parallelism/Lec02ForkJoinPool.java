@@ -8,18 +8,19 @@ import java.util.stream.LongStream;
 public class Lec02ForkJoinPool {
 
     public static void main(String[] args) {
+        
         var start1 = System.currentTimeMillis();
-        System.out.println(forkJoinSum(100_000_000));
+        System.out.println(forkJoinSum(10_000_000));
         var end1 = System.currentTimeMillis();
         System.out.println(end1 - start1);
 
         var start2 = System.currentTimeMillis();
-        System.out.println(streamSum(100_000_000));
+        System.out.println(streamSum(10_000_000));
         var end2 = System.currentTimeMillis();
         System.out.println(end2 - start2);
 
         var start3 = System.currentTimeMillis();
-        System.out.println(parallelStreamSum(100_000_000));
+        System.out.println(parallelStreamSum(10_000_000));
         var end3 = System.currentTimeMillis();
         System.out.println(end3 - start3);
 
@@ -48,7 +49,7 @@ class ForkJoinSumCal extends RecursiveTask<Long> {
     private final long[] numbers;
     private final int start;
     private final int end;
-    private static final long THRESHOLD = 10_000;
+    private static final long THRESHOLD = 2_500_000;
 
     public ForkJoinSumCal(long[] numbers) {
         this(numbers, 0, numbers.length);
