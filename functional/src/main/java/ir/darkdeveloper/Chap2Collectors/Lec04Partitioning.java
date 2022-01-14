@@ -23,7 +23,7 @@ public class Lec04Partitioning {
         System.out.println(partitionedDishesWithTypes);
 
         // partitioned prime and non prime numbers till n
-        System.out.println(partitionPrimeNumbers(100));
+        System.out.println(partitionPrimeNumbers(30));
 
     }
 

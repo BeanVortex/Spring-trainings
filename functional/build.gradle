@@ -26,7 +26,7 @@ dependencies {
     testImplementation 'org.projectlombok:lombok:1.18.22'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
 }
 
 application {
