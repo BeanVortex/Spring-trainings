@@ -1,4 +1,4 @@
-package ir.darkdeveloper.Cha05Logging;
+package ir.darkdeveloper.Chap05Logging;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
