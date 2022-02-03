@@ -2,7 +2,7 @@ plugins {
     id 'application'
     id 'java'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-//    id "me.champeau.jmh" version "0.6.6"
+    id "me.champeau.jmh" version "0.6.6"
 }
 sourceCompatibility = '17'
 
@@ -15,11 +15,23 @@ repositories {
     }
 }
 
+// jmh {
+//     duplicateClassesStrategy = DuplicatesStrategy.WARN
+//     includes = ['parallel.DoublingDemo.*', 'parallel.CustomPoolBenchmark.*']
+// }
+
+sourceSets {
+    jmh {
+        java.srcDirs = ['src/jmh/java']
+        resources.srcDirs = ['src/jmh/resources']
+        compileClasspath += sourceSets.main.runtimeClasspath
+    }
+}
+
 dependencies {
     implementation 'org.projectlombok:lombok:1.18.22'
-    implementation 'org.openjdk.jmh:jmh-core:1.34'
-    implementation 'org.openjdk.jmh:jmh-generator-annprocess:1.34'
-//    implementation 'me.champeau.gradle:jmh-gradle-plugin:0.6.6'
+    jmhImplementation  'org.openjdk.jmh:jmh-core:1.34'
+    jmhImplementation  'org.openjdk.jmh:jmh-generator-annprocess:1.34'
 
 
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
@@ -37,3 +49,7 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+// task jmh(type: JavaExec, dependsOn: jmhClasses) {
+//     main = 'org.openjdk.jmh.Main'
+//     classpath = sourceSets.jmh.compileClasspath + sourceSets.jmh.runtimeClasspath
+// }
