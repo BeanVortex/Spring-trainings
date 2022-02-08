@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-public class Lec03Pipelining {
+public class Lec03PipeliningAndComposing {
 
     private static final List<Shop> shops = List.of(new Shop("shop1"),
             new Shop("shop2"),
