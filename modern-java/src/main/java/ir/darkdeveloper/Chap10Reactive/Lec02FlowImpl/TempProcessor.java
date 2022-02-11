@@ -1,4 +1,4 @@
-package ir.darkdeveloper.Chap10Reactive.Lec02;
+package ir.darkdeveloper.Chap10Reactive.Lec02FlowImpl;
 
 import java.util.concurrent.Flow.Processor;
 import java.util.concurrent.Flow.Subscriber;

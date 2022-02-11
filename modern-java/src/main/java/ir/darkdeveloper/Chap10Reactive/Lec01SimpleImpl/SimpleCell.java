@@ -1,10 +1,10 @@
-package ir.darkdeveloper.Chap10Reactive.Lec01;
+package ir.darkdeveloper.Chap10Reactive.Lec01SimpleImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.darkdeveloper.Chap10Reactive.Lec01.Utils.Publisher;
-import ir.darkdeveloper.Chap10Reactive.Lec01.Utils.Subscriber;
+import ir.darkdeveloper.Chap10Reactive.Lec01SimpleImpl.Utils.Publisher;
+import ir.darkdeveloper.Chap10Reactive.Lec01SimpleImpl.Utils.Subscriber;
 
 public class SimpleCell implements Publisher<Integer>, Subscriber<Integer> {
 
