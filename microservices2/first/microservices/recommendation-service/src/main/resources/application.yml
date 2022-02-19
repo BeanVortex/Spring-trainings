@@ -1,0 +1,6 @@
+server:
+  port: 7002
+logging:
+  level:
+    root: info
+    ir.darkdeveloper.microservice: debug

@@ -4,7 +4,7 @@ plugins {
     id 'java'
 }
 
-group = 'ir.darkdeveloper'
+group = 'ir.darkdeveloper.microservices'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
@@ -18,20 +18,16 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.projectreactor:reactor-test'
-}
-
 jar {
     enabled = false
 }
 
-
-tasks.named('test') {
-    useJUnitPlatform()
+dependencies {
+    implementation project(":api")
+    implementation project(":util")
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.6.3'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:2.6.3'
+    implementation 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.3'
+    testImplementation 'io.projectreactor:reactor-test:3.4.14'
 }
