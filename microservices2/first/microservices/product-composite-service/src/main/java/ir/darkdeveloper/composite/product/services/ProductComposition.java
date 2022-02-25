@@ -29,12 +29,12 @@ public class ProductComposition implements ProductService, RecommendationService
                               @Value("${app.product-service.host}") String productServiceHost,
                               @Value("${app.product-service.port}") Integer productServicePort,
                               @Value("${app.recommendation-service.host}") String recommendationServiceHost,
-                              @Value("${app.product-service.port}") Integer recommendationServicePort,
+                              @Value("${app.recommendation-service.port}") Integer recommendationServicePort,
                               @Value("${app.review-service.host}") String reviewServiceHost,
                               @Value("${app.review-service.port}") Integer reviewServicePort) {
         this.restTemplate = restTemplate;
         productServiceUrl = "http://" + productServiceHost + ":" + productServicePort + "/product/";
-        recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort + "/recommendation?  productId=";
+        recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort + "/recommendation?productId=";
         reviewServiceUrl = "http://" + reviewServiceHost + ":" + reviewServicePort + "/review?productId=";
 
     }
@@ -49,21 +49,18 @@ public class ProductComposition implements ProductService, RecommendationService
     @Override
     public List<Recommendation> getRecommendations(int productId) {
         var url = recommendationServiceUrl + productId;
-//        return restTemplate.exchange(url, HttpMethod.GET, null,
-//                        new ParameterizedTypeReference<List<Recommendation>>() {
-//                        })
-//                .getBody();
-        return List.of(new Recommendation(productId, 4,
-                "adsf", 10, "content", "addr"));
+       return restTemplate.exchange(url, HttpMethod.GET, null,
+                       new ParameterizedTypeReference<List<Recommendation>>() {
+                       })
+               .getBody();
     }
 
     @Override
     public List<Review> getReviews(int productId) {
         var url = reviewServiceUrl + productId;
-//        return restTemplate.exchange(url, HttpMethod.GET, null,
-//                        new ParameterizedTypeReference<List<Review>>() {
-//                        })
-//                .getBody();
-        return List.of(new Review(productId, 12, "adsf", "asdf", "sadf", "adf"));
+       return restTemplate.exchange(url, HttpMethod.GET, null,
+                       new ParameterizedTypeReference<List<Review>>() {
+                       })
+               .getBody();
     }
 }
