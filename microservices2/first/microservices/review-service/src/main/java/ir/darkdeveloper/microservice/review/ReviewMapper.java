@@ -8,12 +8,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ReviewMapper {
 
     @Mappings({
             @Mapping(target = "serviceAddress", ignore = true),
-            @Mapping(target = "productId", source = "productId")
     })
     Review entityToApi(ReviewEntity entity);
 
