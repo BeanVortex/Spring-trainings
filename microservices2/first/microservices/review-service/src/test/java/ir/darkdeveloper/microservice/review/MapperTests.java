@@ -7,13 +7,14 @@ import java.util.List;
 
 import ir.darkdeveloper.microservice.api.core.review.Review;
 import ir.darkdeveloper.microservice.review.persistence.ReviewEntity;
+import ir.darkdeveloper.microservice.review.services.ReviewMapper;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 
 class MapperTests {
 
-  private ReviewMapper mapper = Mappers.getMapper(ReviewMapper.class);
+  private final ReviewMapper mapper = Mappers.getMapper(ReviewMapper.class);
 
   @Test
   void mapperTests() {
