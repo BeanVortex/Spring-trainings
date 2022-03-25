@@ -32,10 +32,10 @@ class PersistenceTests extends MongoDbTestBase {
 
     @BeforeEach
     void setupDb() {
-        repo.deleteAll();
+        repo.deleteAll().block();
 
-        RecommendationEntity entity = new RecommendationEntity(1, 2, "a", 3, "c");
-        savedEntity = repo.save(entity);
+        var entity = new RecommendationEntity(1, 2, "a", 3, "c");
+        savedEntity = repo.save(entity).block();
 
         assertEqualsRecommendation(entity, savedEntity);
     }
@@ -44,34 +44,35 @@ class PersistenceTests extends MongoDbTestBase {
     @Test
     void create() {
 
-        RecommendationEntity newEntity = new RecommendationEntity(1, 3, "a", 3, "c");
-        repo.save(newEntity);
+        var newEntity = new RecommendationEntity(1, 3, "a", 3, "c");
+        repo.save(newEntity).block();
 
-        RecommendationEntity foundEntity = repo.findById(newEntity.getId()).get();
+        var foundEntity = repo.findById(newEntity.getId()).block();
         assertEqualsRecommendation(newEntity, foundEntity);
 
-        assertEquals(2, repo.count());
+        assertEquals(2L, repo.count().block());
     }
 
     @Test
     void update() {
         savedEntity.setAuthor("a2");
-        repo.save(savedEntity);
+        repo.save(savedEntity).block();
 
-        RecommendationEntity foundEntity = repo.findById(savedEntity.getId()).get();
-        assertEquals(1, (long) foundEntity.getVersion());
+        RecommendationEntity foundEntity = repo.findById(savedEntity.getId()).block();
+        assertEquals(1, foundEntity.getVersion());
         assertEquals("a2", foundEntity.getAuthor());
     }
 
     @Test
     void delete() {
-        repo.delete(savedEntity);
-        assertFalse(repo.existsById(savedEntity.getId()));
+        repo.delete(savedEntity).block();
+        assertFalse(repo.existsById(savedEntity.getId()).block());
     }
 
     @Test
     void getByProductId() {
-        List<RecommendationEntity> entityList = repo.findByProductId(savedEntity.getProductId());
+        var entityList = repo.findByProductId(savedEntity.getProductId())
+                .collectList().block();
 
         assertThat(entityList, hasSize(1));
         assertEqualsRecommendation(savedEntity, entityList.get(0));
@@ -82,7 +83,7 @@ class PersistenceTests extends MongoDbTestBase {
         assertThrows(DuplicateKeyException.class, () -> {
             RecommendationEntity entity = new RecommendationEntity(1, 2, "a", 3, "c");
             entity.setId(savedEntity.getId());
-            repo.save(entity);
+            repo.save(entity).block();
         });
     }
 
@@ -90,22 +91,22 @@ class PersistenceTests extends MongoDbTestBase {
     void optimisticLockError() {
 
         // Store the saved entity in two separate entity objects
-        RecommendationEntity entity1 = repo.findById(savedEntity.getId()).get();
-        RecommendationEntity entity2 = repo.findById(savedEntity.getId()).get();
+        var entity1 = repo.findById(savedEntity.getId()).block();
+        var entity2 = repo.findById(savedEntity.getId()).block();
 
         // Update the entity using the first entity object
         entity1.setAuthor("a1");
-        repo.save(entity1);
+        repo.save(entity1).block();
 
         //  Update the entity using the second entity object.
         // This should fail since the second entity now holds an old version number, i.e. an Optimistic Lock Error
         assertThrows(OptimisticLockingFailureException.class, () -> {
             entity2.setAuthor("a2");
-            repo.save(entity2);
+            repo.save(entity2).block();
         });
 
-        // Get the updated entity from the database and verify its new sate
-        RecommendationEntity updatedEntity = repo.findById(savedEntity.getId()).get();
+        // Get the updated entity from the database and verify its new state
+        var updatedEntity = repo.findById(savedEntity.getId()).block();
         assertEquals(1, (int) updatedEntity.getVersion());
         assertEquals("a1", updatedEntity.getAuthor());
     }

@@ -1,9 +1,10 @@
 package ir.darkdeveloper.microservice.recommendation.persistence;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 
-import java.util.List;
-
-public interface RecommendationRepo extends CrudRepository<RecommendationEntity, String> {
-    List<RecommendationEntity> findByProductId(int productId);
+@Repository
+public interface RecommendationRepo extends ReactiveCrudRepository<RecommendationEntity, String> {
+    Flux<RecommendationEntity> findByProductId(int productId);
 }

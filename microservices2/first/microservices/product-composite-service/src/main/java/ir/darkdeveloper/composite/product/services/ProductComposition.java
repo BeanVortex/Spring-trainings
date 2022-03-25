@@ -18,6 +18,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -109,54 +111,55 @@ public class ProductComposition implements ProductService, RecommendationService
 
 
     @Override
-    public Recommendation createRecommendation(Recommendation body) {
-        try {
-            var url = recommendationServiceUrl;
-            LOG.debug("Will post a new recommendation to URL: {}", url);
-
-            var recommendation = restTemplate.postForObject(url, body, Recommendation.class);
-            if (recommendation != null)
-                LOG.debug("Created a recommendation with id: {}", recommendation.productId());
-            else
-                LOG.warn("null recommendation");
-
-            return recommendation;
-
-        } catch (HttpClientErrorException ex) {
-            throw handleHttpClientException(ex);
-        }
+    public Mono<Recommendation> createRecommendation(Recommendation body) {
+        return null;
+//        try {
+//            var url = recommendationServiceUrl;
+//            LOG.debug("Will post a new recommendation to URL: {}", url);
+//
+//            var recommendation = restTemplate.postForObject(url, body, Recommendation.class);
+//            if (recommendation != null)
+//                LOG.debug("Created a recommendation with id: {}", recommendation.productId());
+//            else
+//                LOG.warn("null recommendation");
+//
+//            return recommendation;
+//
+//        } catch (HttpClientErrorException ex) {
+//            throw handleHttpClientException(ex);
+//        }
     }
 
     @Override
-    public List<Recommendation> getRecommendations(Integer productId) {
-
-
-        try {
-            String url = recommendationServiceUrl + "?productId=" + productId;
-
-            LOG.debug("Will call the getRecommendations API on URL: {}", url);
-            List<Recommendation> recommendations = restTemplate
-                    .exchange(url, GET, null, new ParameterizedTypeReference<List<Recommendation>>() {
-                    })
-                    .getBody();
-
-            if (recommendations != null)
-                LOG.debug("Found {} recommendations for a product with id: {}", recommendations.size(), productId);
-            else
-                LOG.warn("null recommendations");
-
-            return recommendations;
-
-        } catch (Exception ex) {
-            LOG.warn("Got an exception while requesting recommendations, return zero recommendations: {}", ex.getMessage());
-            return new ArrayList<>();
-        }
+    public Flux<Recommendation> getRecommendations(Integer productId) {
+        return null;
+//
+//        try {
+//            String url = recommendationServiceUrl + "?productId=" + productId;
+//
+//            LOG.debug("Will call the getRecommendations API on URL: {}", url);
+//            var recommendations = restTemplate
+//                    .exchange(url, GET, null, new ParameterizedTypeReference<List<Recommendation>>() {
+//                    })
+//                    .getBody();
+//
+//            if (recommendations != null)
+//                LOG.debug("Found {} recommendations for a product with id: {}", recommendations.size(), productId);
+//            else
+//                LOG.warn("null recommendations");
+//
+//            return recommendations;
+//
+//        } catch (Exception ex) {
+//            LOG.warn("Got an exception while requesting recommendations, return zero recommendations: {}", ex.getMessage());
+//            return new ArrayList<>();
+//        }
     }
 
     @Override
     public void deleteRecommendations(Integer productId) {
         try {
-            String url = recommendationServiceUrl + "?productId=" + productId;
+            var url = recommendationServiceUrl + "?productId=" + productId;
             LOG.debug("Will call the deleteRecommendations API on URL: {}", url);
 
             restTemplate.delete(url);
@@ -170,10 +173,10 @@ public class ProductComposition implements ProductService, RecommendationService
     public Review createReview(Review body) {
 
         try {
-            String url = reviewServiceUrl;
+            var url = reviewServiceUrl;
             LOG.debug("Will post a new review to URL: {}", url);
 
-            Review review = restTemplate.postForObject(url, body, Review.class);
+            var review = restTemplate.postForObject(url, body, Review.class);
             if (review != null)
                 LOG.debug("Created a review with id: {}", review.productId());
             else
@@ -189,10 +192,10 @@ public class ProductComposition implements ProductService, RecommendationService
     public List<Review> getReviews(Integer productId) {
 
         try {
-            String url = reviewServiceUrl + "?productId=" + productId;
+            var url = reviewServiceUrl + "?productId=" + productId;
 
             LOG.debug("Will call the getReviews API on URL: {}", url);
-            List<Review> reviews = restTemplate
+            var reviews = restTemplate
                     .exchange(url, GET, null, new ParameterizedTypeReference<List<Review>>() {
                     })
                     .getBody();
@@ -213,7 +216,7 @@ public class ProductComposition implements ProductService, RecommendationService
     @Override
     public void deleteReviews(Integer productId) {
         try {
-            String url = reviewServiceUrl + "?productId=" + productId;
+            var url = reviewServiceUrl + "?productId=" + productId;
             LOG.debug("Will call the deleteReviews API on URL: {}", url);
 
             restTemplate.delete(url);

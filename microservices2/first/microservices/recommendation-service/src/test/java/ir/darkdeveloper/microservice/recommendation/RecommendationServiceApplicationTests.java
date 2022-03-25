@@ -38,7 +38,7 @@ class RecommendationServiceApplicationTests extends MongoDbTestBase {
     postAndVerifyRecommendation(productId, 2, OK);
     postAndVerifyRecommendation(productId, 3, OK);
 
-    assertEquals(3, repo.findByProductId(productId).size());
+    assertEquals(3, repo.findByProductId(productId).collectList().block().size());
 
     getAndVerifyRecommendationsByProductId(productId, OK)
       .jsonPath("$.length()").isEqualTo(3)
@@ -49,14 +49,14 @@ class RecommendationServiceApplicationTests extends MongoDbTestBase {
   @Test
   void deleteRecommendations() {
 
-    int productId = 1;
-    int recommendationId = 1;
+    var productId = 1;
+    var recommendationId = 1;
 
     postAndVerifyRecommendation(productId, recommendationId, OK);
-    assertEquals(1, repo.findByProductId(productId).size());
+    assertEquals(1, repo.findByProductId(productId).collectList().block().size());
 
     deleteAndVerifyRecommendationsByProductId(productId, OK);
-    assertEquals(0, repo.findByProductId(productId).size());
+    assertEquals(0, repo.findByProductId(productId).collectList().block().size());
 
     deleteAndVerifyRecommendationsByProductId(productId, OK);
   }
