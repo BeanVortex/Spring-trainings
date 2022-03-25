@@ -1,7 +1,6 @@
 package ir.darkdeveloper.microservices.product;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -30,7 +29,7 @@ class ProductServiceApplicationTests extends MongoDbTestBase {
 
     @BeforeEach
     void setupDb() {
-        repo.deleteAll();
+        repo.deleteAll().block();
     }
 
     @Test
@@ -40,7 +39,9 @@ class ProductServiceApplicationTests extends MongoDbTestBase {
 
         postAndVerifyProduct(productId, OK);
 
-        assertTrue(repo.findByProductId(productId).isPresent());
+        var res= repo.findByProductId(productId).block();
+
+        assertNotNull(res);
 
         getAndVerifyProduct(productId, OK).jsonPath("$.productId").isEqualTo(productId);
     }
@@ -52,10 +53,12 @@ class ProductServiceApplicationTests extends MongoDbTestBase {
         int productId = 1;
 
         postAndVerifyProduct(productId, OK);
-        assertTrue(repo.findByProductId(productId).isPresent());
+        var pr1 = repo.findByProductId(productId).block();
+        assertNotNull(pr1);
 
         deleteAndVerifyProduct(productId, OK);
-        assertFalse(repo.findByProductId(productId).isPresent());
+        var pr2 = repo.findByProductId(productId).block();
+        assertNull(pr2);
 
         deleteAndVerifyProduct(productId, OK);
     }

@@ -30,6 +30,7 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
     testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 
     testImplementation 'org.testcontainers:testcontainers:1.16.3'
     testImplementation 'org.testcontainers:junit-jupiter:1.16.3'

@@ -3,15 +3,16 @@ package ir.darkdeveloper.microservices.product.services;
 import ir.darkdeveloper.microservice.api.core.product.Product;
 import ir.darkdeveloper.microservice.api.core.product.ProductService;
 import ir.darkdeveloper.microservice.api.exceptions.InvalidInputException;
-import ir.darkdeveloper.microservice.api.exceptions.NotFoundException;
 import ir.darkdeveloper.microservice.util.http.ServiceUtil;
-import ir.darkdeveloper.microservices.product.persistence.ProductEntity;
 import ir.darkdeveloper.microservices.product.persistence.ProductRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
+
+import java.util.logging.Level;
 
 @RestController
 public class ProductServiceImpl implements ProductService {
@@ -31,41 +32,44 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public Product getProduct(Integer productId) {
+    public Mono<Product> getProduct(Integer productId) {
 
-        if (productId < 1) {
+        if (productId < 1)
             throw new InvalidInputException("Invalid productId: " + productId);
-        }
 
-        var entity = repo.findByProductId(productId)
-                .orElseThrow(() -> new NotFoundException("No product found for productId: " + productId));
 
-        var response = mapper.entityToApi(entity);
-        var product = new Product(productId, response.name(), response.weight(), serviceUtil.getServiceAddress());
-        LOG.debug("getProduct: found productId: {}", product.productId());
+        LOG.info("Will get product info for id={}", productId);
 
-        return product;
+
+        return repo.findByProductId(productId)
+                .log(LOG.getName(), Level.FINE)
+                .map(mapper::entityToApi)
+                .map(p -> new Product(p.productId(), p.name(), p.weight(), serviceUtil.getServiceAddress()));
+
     }
 
     @Override
-    public Product createProduct(Product body) {
-        try {
-            var entity = mapper.apiToEntity(body);
-            var newEntity = repo.save(entity);
-
-            LOG.debug("createProduct: entity created for productId: {}", body.productId());
-            return mapper.entityToApi(newEntity);
-
-        } catch (DuplicateKeyException dke) {
-            throw new InvalidInputException("Duplicate key, Product Id: " + body.productId());
-        }
+    public Mono<Product> createProduct(Product body) {
+        var entity = mapper.apiToEntity(body);
+        return repo.save(entity)
+                .log(LOG.getName(), Level.FINE)
+                .onErrorMap(DuplicateKeyException.class,
+                        e -> new InvalidInputException("Duplicate key, Product Id: " + body.productId()))
+                .map(mapper::entityToApi);
     }
 
 
     @Override
-    public void deleteProduct(Integer productId) {
+    public Mono<Void> deleteProduct(Integer productId) {
+        if (productId < 1)
+            throw new InvalidInputException("Invalid productId: " + productId);
+
         LOG.debug("deleteProduct: tries to delete an entity with productId: {}", productId);
-        repo.findByProductId(productId).ifPresent(repo::delete);
+
+        return repo.findByProductId(productId)
+                .log(LOG.getName(), Level.FINE)
+                .map(repo::delete)
+                .flatMap(e -> e);
     }
 
 

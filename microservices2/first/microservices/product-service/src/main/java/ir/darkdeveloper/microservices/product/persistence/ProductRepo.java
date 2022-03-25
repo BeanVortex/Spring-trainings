@@ -1,12 +1,13 @@
 package ir.darkdeveloper.microservices.product.persistence;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
 @Repository
-public interface ProductRepo extends PagingAndSortingRepository<ProductEntity, String> {
+public interface ProductRepo extends ReactiveCrudRepository<ProductEntity, String> {
 
-    Optional<ProductEntity> findByProductId(int productId);
+    Mono<ProductEntity> findByProductId(int productId);
 }
