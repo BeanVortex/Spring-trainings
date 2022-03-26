@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
 
-@Entity
-@Table(name = "reviews", indexes = {
-        @Index(name = "reviews_unique_idx", unique = true, columnList = "productId,reviewId")
-})
+@Table
 @Getter
 @Setter
 @NoArgsConstructor

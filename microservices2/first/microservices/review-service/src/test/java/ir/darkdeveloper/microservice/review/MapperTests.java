@@ -21,9 +21,9 @@ class MapperTests {
 
     assertNotNull(mapper);
 
-    Review api = new Review(1, 2, "a", "s", "C", "adr");
+    var api = new Review(1, 2, "a", "s", "C", "adr");
 
-    ReviewEntity entity = mapper.apiToEntity(api);
+    var entity = mapper.apiToEntity(api);
 
     assertEquals(api.productId(), entity.getProductId());
     assertEquals(api.reviewId(), entity.getReviewId());
@@ -31,7 +31,7 @@ class MapperTests {
     assertEquals(api.subject(), entity.getSubject());
     assertEquals(api.content(), entity.getContent());
 
-    Review api2 = mapper.entityToApi(entity);
+    var api2 = mapper.entityToApi(entity);
 
     assertEquals(api.productId(), api2.productId());
     assertEquals(api.reviewId(), api2.reviewId());
@@ -46,13 +46,13 @@ class MapperTests {
 
     assertNotNull(mapper);
 
-    Review api = new Review(1, 2, "a", "s", "C", "adr");
-    List<Review> apiList = Collections.singletonList(api);
+    var api = new Review(1, 2, "a", "s", "C", "adr");
+    var apiList = Collections.singletonList(api);
 
-    List<ReviewEntity> entityList = mapper.apiListToEntityList(apiList);
+    var entityList = mapper.apiListToEntityList(apiList);
     assertEquals(apiList.size(), entityList.size());
 
-    ReviewEntity entity = entityList.get(0);
+    var entity = entityList.get(0);
 
     assertEquals(api.productId(), entity.getProductId());
     assertEquals(api.reviewId(), entity.getReviewId());
@@ -60,10 +60,10 @@ class MapperTests {
     assertEquals(api.subject(), entity.getSubject());
     assertEquals(api.content(), entity.getContent());
 
-    List<Review> api2List = mapper.entityListToApiList(entityList);
+    var api2List = mapper.entityListToApiList(entityList);
     assertEquals(apiList.size(), api2List.size());
 
-    Review api2 = api2List.get(0);
+    var api2 = api2List.get(0);
 
     assertEquals(api.productId(), api2.productId());
     assertEquals(api.reviewId(), api2.reviewId());

@@ -8,20 +8,28 @@ logging:
 
 server.error.include-message: always
 
-# Strongly recommend to set this property to "none" in a production environment!
+# Strongly recommend setting this property to "none" in a production environment!
 spring.jpa.hibernate.ddl-auto: update
 
-spring.datasource:
-  url: jdbc:mysql://localhost/review-db
-  username: user
-  password: pwd
+#spring.datasource:
+#  url: jdbc:mysql://localhost/review-db
+#  username: user
+#  password: pwd
 
-spring.datasource.hikari.initializationFailTimeout: 60000
+#spring.datasource.hikari.initializationFailTimeout: 60000
+
+spring:
+  r2dbc:
+    url: r2dbc:mysql://localhost/review_service
+    password: 1234
+    username: darkdeveloper
+
 
 
 ---
 spring.config.activate.on-profile: docker
 server.port: 8080
 
-spring.datasource:
-  url: jdbc:mysql://mysql/review-db
+spring:
+  r2dbc:
+    url: r2dbc:mysql://localhost/review-db

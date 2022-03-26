@@ -34,13 +34,13 @@ class ReviewServiceApplicationTests extends MySqlTestBase {
 
     int productId = 1;
 
-    assertEquals(0, repository.findByProductId(productId).size());
+    assertEquals(0, repository.findByProductId(productId).collectList().block().size());
 
     postAndVerifyReview(productId, 1, OK);
     postAndVerifyReview(productId, 2, OK);
     postAndVerifyReview(productId, 3, OK);
 
-    assertEquals(3, repository.findByProductId(productId).size());
+    assertEquals(3, repository.findByProductId(productId).collectList().block().size());
 
     getAndVerifyReviewsByProductId(productId, OK)
       .jsonPath("$.length()").isEqualTo(3)
@@ -54,19 +54,19 @@ class ReviewServiceApplicationTests extends MySqlTestBase {
     int productId = 1;
     int reviewId = 1;
 
-    assertEquals(0, repository.count());
+    assertEquals(0, repository.count().block());
 
     postAndVerifyReview(productId, reviewId, OK)
       .jsonPath("$.productId").isEqualTo(productId)
       .jsonPath("$.reviewId").isEqualTo(reviewId);
 
-    assertEquals(1, repository.count());
+    assertEquals(1, repository.count().block());
 
     postAndVerifyReview(productId, reviewId, UNPROCESSABLE_ENTITY)
       .jsonPath("$.path").isEqualTo("/review")
       .jsonPath("$.message").isEqualTo("Duplicate key, Product Id: 1, Review Id:1");
 
-    assertEquals(1, repository.count());
+    assertEquals(1, repository.count().block());
   }
 
   @Test
@@ -76,10 +76,10 @@ class ReviewServiceApplicationTests extends MySqlTestBase {
     int reviewId = 1;
 
     postAndVerifyReview(productId, reviewId, OK);
-    assertEquals(1, repository.findByProductId(productId).size());
+    assertEquals(1, repository.findByProductId(productId).collectList().block().size());
 
     deleteAndVerifyReviewsByProductId(productId, OK);
-    assertEquals(0, repository.findByProductId(productId).size());
+    assertEquals(0, repository.findByProductId(productId).collectList().block().size());
 
     deleteAndVerifyReviewsByProductId(productId, OK);
   }

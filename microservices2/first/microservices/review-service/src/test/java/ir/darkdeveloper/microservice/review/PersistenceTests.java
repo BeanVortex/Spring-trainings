@@ -5,20 +5,19 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED;
 
-import java.util.List;
 
 import ir.darkdeveloper.microservice.review.persistence.ReviewEntity;
 import ir.darkdeveloper.microservice.review.persistence.ReviewRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
-@DataJpaTest
+@DataR2dbcTest
 @Transactional(propagation = NOT_SUPPORTED)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PersistenceTests extends MySqlTestBase {
@@ -29,10 +28,11 @@ class PersistenceTests extends MySqlTestBase {
 
     @BeforeEach
     void setupDb() {
-        repository.deleteAll();
+        repository.deleteAll().block();
 
-        ReviewEntity entity = new ReviewEntity(1, 2, "a", "s", "c");
-        savedEntity = repository.save(entity);
+        var entity = new ReviewEntity(1, 2, "a", "s", "c");
+        savedEntity = repository.save(entity).block();
+        assertNotNull(savedEntity);
 
         assertEqualsReview(entity, savedEntity);
     }
@@ -41,34 +41,39 @@ class PersistenceTests extends MySqlTestBase {
     @Test
     void create() {
 
-        ReviewEntity newEntity = new ReviewEntity(1, 3, "a", "s", "c");
-        repository.save(newEntity);
+        var newEntity = new ReviewEntity(1, 3, "a", "s", "c");
+        repository.save(newEntity).block();
 
-        ReviewEntity foundEntity = repository.findById(newEntity.getId()).get();
+        var foundEntity = repository.findById(newEntity.getId()).block();
+
+        assertNotNull(foundEntity);
         assertEqualsReview(newEntity, foundEntity);
 
-        assertEquals(2, repository.count());
+        assertEquals(2, repository.count().block());
     }
 
     @Test
     void update() {
         savedEntity.setAuthor("a2");
-        repository.save(savedEntity);
+        repository.save(savedEntity).block();
 
-        ReviewEntity foundEntity = repository.findById(savedEntity.getId()).get();
+        var foundEntity = repository.findById(savedEntity.getId()).block();
+        assertNotNull(foundEntity);
         assertEquals(1, (long) foundEntity.getVersion());
         assertEquals("a2", foundEntity.getAuthor());
     }
 
     @Test
     void delete() {
-        repository.delete(savedEntity);
-        assertFalse(repository.existsById(savedEntity.getId()));
+        repository.delete(savedEntity).block();
+        var doesExists = repository.existsById(savedEntity.getId()).block();
+        assertNotNull(doesExists);
+        assertFalse(doesExists);
     }
 
     @Test
     void getByProductId() {
-        List<ReviewEntity> entityList = repository.findByProductId(savedEntity.getProductId());
+        var entityList = repository.findByProductId(savedEntity.getProductId()).collectList().block();
 
         assertThat(entityList, hasSize(1));
         assertEqualsReview(savedEntity, entityList.get(0));
@@ -79,7 +84,7 @@ class PersistenceTests extends MySqlTestBase {
         assertThrows(DataIntegrityViolationException.class, () -> {
             var entity = new ReviewEntity(1, 2, "a", "s", "c");
             entity.setId(savedEntity.getId());
-            repository.save(entity);
+            repository.save(entity).block();
         });
 
     }
@@ -88,8 +93,11 @@ class PersistenceTests extends MySqlTestBase {
     void optimisticLockError() {
 
         // Store the saved entity in two separate entity objects
-        ReviewEntity entity1 = repository.findById(savedEntity.getId()).get();
-        ReviewEntity entity2 = repository.findById(savedEntity.getId()).get();
+        var entity1 = repository.findById(savedEntity.getId()).block();
+        var entity2 = repository.findById(savedEntity.getId()).block();
+
+        assertNotNull(entity1);
+        assertNotNull(entity2);
 
         // Update the entity using the first entity object
         entity1.setAuthor("a1");
@@ -102,8 +110,9 @@ class PersistenceTests extends MySqlTestBase {
             repository.save(entity2);
         });
 
-        // Get the updated entity from the database and verify its new sate
-        ReviewEntity updatedEntity = repository.findById(savedEntity.getId()).get();
+        // Get the updated entity from the database and verify its new state
+        var updatedEntity = repository.findById(savedEntity.getId()).block();
+        assertNotNull(updatedEntity);
         assertEquals(1, (int) updatedEntity.getVersion());
         assertEquals("a1", updatedEntity.getAuthor());
     }

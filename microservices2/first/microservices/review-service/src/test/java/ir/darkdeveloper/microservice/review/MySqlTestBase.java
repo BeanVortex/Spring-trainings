@@ -5,18 +5,23 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 
 public abstract class MySqlTestBase {
-  private static MySQLContainer database = (MySQLContainer) new MySQLContainer("mysql:latest")
-          .withReuse(true);
+    private static final MySQLContainer<?> database = new MySQLContainer<>("mysql:latest").withReuse(true);
 
-  static {
-    database.start();
-  }
+    static {
+        database.start();
+    }
 
-  @DynamicPropertySource
-  static void databaseProperties(DynamicPropertyRegistry registry) {
-    registry.add("spring.datasource.url", database::getJdbcUrl);
-    registry.add("spring.datasource.username", database::getUsername);
-    registry.add("spring.datasource.password", database::getPassword);
-  }
+    @DynamicPropertySource
+    static void databaseProperties(DynamicPropertyRegistry registry) {
+//        "r2dbc:tc:mysql:///databasename?TC_IMAGE_TAG=5.7.34"
+        registry.add("spring.r2dbc.url", MySqlTestBase::r2dbcUrl);
+        registry.add("spring.r2dbc.username", database::getUsername);
+        registry.add("spring.r2dbc.password", database::getPassword);
+    }
+
+
+    private static String r2dbcUrl() {
+        return String.format("r2dbc:mysql://%s?TC_IMAGE_TAG=5.7.34", database.getDatabaseName());
+    }
 
 }

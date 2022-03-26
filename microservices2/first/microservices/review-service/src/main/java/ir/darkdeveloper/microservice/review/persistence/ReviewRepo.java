@@ -1,12 +1,13 @@
 package ir.darkdeveloper.microservice.review.persistence;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 
-import java.util.List;
-
-public interface ReviewRepo extends JpaRepository<ReviewEntity, Integer> {
+@Repository
+public interface ReviewRepo extends ReactiveCrudRepository<ReviewEntity, Integer> {
 
     @Transactional(readOnly = true)
-    List<ReviewEntity> findByProductId(int productId);
+    Flux<ReviewEntity> findByProductId(int productId);
 }
