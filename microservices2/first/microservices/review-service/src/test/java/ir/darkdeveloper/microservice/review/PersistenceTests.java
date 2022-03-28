@@ -20,7 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 @DataR2dbcTest
 @Transactional(propagation = NOT_SUPPORTED)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class PersistenceTests extends MySqlTestBase {
+class PersistenceTests {
+
+    // run sql. r2dbc does not support auto table creation
+
     @Autowired
     private ReviewRepo repository;
 
@@ -101,13 +104,13 @@ class PersistenceTests extends MySqlTestBase {
 
         // Update the entity using the first entity object
         entity1.setAuthor("a1");
-        repository.save(entity1);
+        repository.save(entity1).block();
 
         // Update the entity using the second entity object.
         // This should fail since the second entity now holds an old version number, i.e. an Optimistic Lock Error
         assertThrows(OptimisticLockingFailureException.class, () -> {
             entity2.setAuthor("a2");
-            repository.save(entity2);
+            repository.save(entity2).block();
         });
 
         // Get the updated entity from the database and verify its new state

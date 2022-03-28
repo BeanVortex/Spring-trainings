@@ -10,7 +10,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.GeneratedValue;
 
-@Table
+@Table("reviews")
 @Getter
 @Setter
 @NoArgsConstructor

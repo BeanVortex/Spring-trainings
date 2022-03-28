@@ -9,7 +9,7 @@ logging:
 server.error.include-message: always
 
 # Strongly recommend setting this property to "none" in a production environment!
-spring.jpa.hibernate.ddl-auto: update
+spring.jpa.hibernate.ddl-auto: create
 
 #spring.datasource:
 #  url: jdbc:mysql://localhost/review-db
@@ -20,9 +20,11 @@ spring.jpa.hibernate.ddl-auto: update
 
 spring:
   r2dbc:
-    url: r2dbc:mysql://localhost/review_service
+    url: r2dbc:postgresql://localhost/review_service
     password: 1234
     username: darkdeveloper
+  jpa:
+    show-sql: true
 
 
 
@@ -32,4 +34,4 @@ server.port: 8080
 
 spring:
   r2dbc:
-    url: r2dbc:mysql://localhost/review-db
+    url: r2dbc:postgresql://localhost/review-db
