@@ -71,9 +71,9 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
             throw new NotFoundException("No product found for productId: " + productId);
         var recommendations = composition.getRecommendations(productId);
         var reviews = composition.getReviews(productId);
-        return createProductAggregate(product, recommendations, reviews, serviceUtil.getServiceAddress());
+//        return createProductAggregate(product, recommendations, reviews, serviceUtil.getServiceAddress());
+        return null;
     }
-
 
 
     @Override
