@@ -22,6 +22,8 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 
+import static java.util.logging.Level.FINE;
+
 @Component
 public class ProductComposition implements ProductService, RecommendationService, ReviewService {
 
@@ -72,7 +74,9 @@ public class ProductComposition implements ProductService, RecommendationService
 
         return webClient.get()
                 .uri(url)
-                .exchangeToMono(clientResponse -> clientResponse.bodyToMono(Product.class))
+                .retrieve()
+                .bodyToMono(Product.class)
+                .log(LOG.getName(), FINE)
                 .onErrorMap(HttpClientErrorException.class, this::handleHttpClientException);
     }
 
@@ -82,7 +86,9 @@ public class ProductComposition implements ProductService, RecommendationService
         LOG.debug("Will call the deleteProduct API on URL: {}", url);
         return webClient.delete()
                 .uri(url)
-                .exchangeToMono(res -> res.bodyToMono(Void.class))
+                .retrieve()
+                .bodyToMono(Void.class)
+                .log(LOG.getName(), FINE)
                 .onErrorMap(HttpClientErrorException.class, this::handleHttpClientException);
 
     }
