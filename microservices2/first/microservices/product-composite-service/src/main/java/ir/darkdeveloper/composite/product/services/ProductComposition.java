@@ -14,99 +14,83 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import static org.springframework.http.HttpMethod.GET;
+import static java.util.logging.Level.FINE;
 
 @Component
 public class ProductComposition implements ProductService, RecommendationService, ReviewService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductComposition.class);
+    private static final String HTTP_PREFIX = "http://";
 
-
-    private final RestTemplate restTemplate;
     private final String productServiceUrl;
     private final String recommendationServiceUrl;
     private final String reviewServiceUrl;
     private final ObjectMapper mapper;
+    private final WebClient webClient;
 
 
     @Autowired
-    public ProductComposition(RestTemplate restTemplate,
-                              ObjectMapper mapper,
+    public ProductComposition(ObjectMapper mapper,
                               @Value("${app.product-service.host}") String productServiceHost,
                               @Value("${app.product-service.port}") Integer productServicePort,
                               @Value("${app.recommendation-service.host}") String recommendationServiceHost,
                               @Value("${app.recommendation-service.port}") Integer recommendationServicePort,
                               @Value("${app.review-service.host}") String reviewServiceHost,
-                              @Value("${app.review-service.port}") Integer reviewServicePort) {
+                              @Value("${app.review-service.port}") Integer reviewServicePort,
+                              WebClient webClient) {
         this.mapper = mapper;
-        this.restTemplate = restTemplate;
-        productServiceUrl = "http://" + productServiceHost + ":" + productServicePort + "/product/";
-        recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort + "/recommendation?productId=";
-        reviewServiceUrl = "http://" + reviewServiceHost + ":" + reviewServicePort + "/review?productId=";
+        this.webClient = webClient;
+        productServiceUrl = HTTP_PREFIX + productServiceHost + ":" + productServicePort + "/product/";
+        recommendationServiceUrl = HTTP_PREFIX + recommendationServiceHost + ":" + recommendationServicePort + "/recommendation?productId=";
+        reviewServiceUrl = HTTP_PREFIX + reviewServiceHost + ":" + reviewServicePort + "/review?productId=";
 
     }
 
 
     @Override
-    public Product createProduct(Product body) {
+    public Mono<Product> createProduct(Product body) {
+        var url = productServiceUrl;
+        LOG.debug("Will post a new product to URL: {}", url);
 
-        try {
-            var url = productServiceUrl;
-            LOG.debug("Will post a new product to URL: {}", url);
-
-            var product = restTemplate.postForObject(url, body, Product.class);
-            if (product != null)
-                LOG.debug("Created a product with id: {}", product.productId());
-            else
-                LOG.warn("null product");
-
-            return product;
-
-        } catch (HttpClientErrorException ex) {
-            throw handleHttpClientException(ex);
-        }
+        return webClient.post()
+                .uri(url)
+                .body(body, Product.class)
+                .exchangeToMono(res -> res.bodyToMono(Product.class))
+                .onErrorMap(HttpClientErrorException.class, this::handleHttpClientException);
     }
 
     @Override
-    public Product getProduct(Integer productId) {
+    public Mono<Product> getProduct(Integer productId) {
+        var url = productServiceUrl + "/" + productId;
+        LOG.debug("Will call the getProduct API on URL: {}", url);
 
-        try {
-            var url = productServiceUrl + "/" + productId;
-            LOG.debug("Will call the getProduct API on URL: {}", url);
-
-            var product = restTemplate.getForObject(url, Product.class);
-            if (product != null)
-                LOG.debug("Created a product with id: {}", product.productId());
-            else
-                LOG.warn("null product");
-
-            return product;
-
-        } catch (HttpClientErrorException ex) {
-            throw handleHttpClientException(ex);
-        }
+        return webClient.get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(Product.class)
+                .log(LOG.getName(), FINE)
+                .onErrorMap(HttpClientErrorException.class, this::handleHttpClientException);
     }
 
     @Override
-    public void deleteProduct(Integer productId) {
-        try {
-            String url = productServiceUrl + "/" + productId;
-            LOG.debug("Will call the deleteProduct API on URL: {}", url);
-            restTemplate.delete(url);
-        } catch (HttpClientErrorException ex) {
-            throw handleHttpClientException(ex);
-        }
+    public Mono<Void> deleteProduct(Integer productId) {
+        String url = productServiceUrl + "/" + productId;
+        LOG.debug("Will call the deleteProduct API on URL: {}", url);
+        return webClient.delete()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(Void.class)
+                .log(LOG.getName(), FINE)
+                .onErrorMap(HttpClientErrorException.class, this::handleHttpClientException);
+
     }
 
 
@@ -157,73 +141,78 @@ public class ProductComposition implements ProductService, RecommendationService
     }
 
     @Override
-    public void deleteRecommendations(Integer productId) {
-        try {
-            var url = recommendationServiceUrl + "?productId=" + productId;
-            LOG.debug("Will call the deleteRecommendations API on URL: {}", url);
-
-            restTemplate.delete(url);
-
-        } catch (HttpClientErrorException ex) {
-            throw handleHttpClientException(ex);
-        }
+    public Mono<Void> deleteRecommendations(Integer productId) {
+        return null;
+//        try {
+//            var url = recommendationServiceUrl + "?productId=" + productId;
+//            LOG.debug("Will call the deleteRecommendations API on URL: {}", url);
+//
+//            return restTemplate.delete(url, );
+//
+//        } catch (HttpClientErrorException ex) {
+//            throw handleHttpClientException(ex);
+//        }
     }
 
     @Override
-    public Review createReview(Review body) {
-
-        try {
-            var url = reviewServiceUrl;
-            LOG.debug("Will post a new review to URL: {}", url);
-
-            var review = restTemplate.postForObject(url, body, Review.class);
-            if (review != null)
-                LOG.debug("Created a review with id: {}", review.productId());
-            else
-                LOG.warn("null review");
-            return review;
-
-        } catch (HttpClientErrorException ex) {
-            throw handleHttpClientException(ex);
-        }
+    public Mono<Review> createReview(Review body) {
+        return null;
+//        try {
+//            var url = reviewServiceUrl;
+//            LOG.debug("Will post a new review to URL: {}", url);
+//
+//            var review = restTemplate.exchange(url, POST, body,
+//                    new ParameterizedTypeReference<Review>() {
+//                    });
+//            if (review != null)
+//                LOG.debug("Created a review with id: {}", review.productId());
+//            else
+//                LOG.warn("null review");
+//            return review;
+//
+//        } catch (HttpClientErrorException ex) {
+//            throw handleHttpClientException(ex);
+//        }
     }
 
     @Override
-    public List<Review> getReviews(Integer productId) {
+    public Flux<Review> getReviews(Integer productId) {
 
-        try {
-            var url = reviewServiceUrl + "?productId=" + productId;
-
-            LOG.debug("Will call the getReviews API on URL: {}", url);
-            var reviews = restTemplate
-                    .exchange(url, GET, null, new ParameterizedTypeReference<List<Review>>() {
-                    })
-                    .getBody();
-
-            if (reviews != null)
-                LOG.debug("Found {} reviews for a product with id: {}", reviews.size(), productId);
-            else
-                LOG.warn("null reviews");
-
-            return reviews;
-
-        } catch (Exception ex) {
-            LOG.warn("Got an exception while requesting reviews, return zero reviews: {}", ex.getMessage());
-            return new ArrayList<>();
-        }
+//        try {
+//            var url = reviewServiceUrl + "?productId=" + productId;
+//
+//            LOG.debug("Will call the getReviews API on URL: {}", url);
+//            var reviews = restTemplate
+//                    .exchange(url, GET, null, new ParameterizedTypeReference<List<Review>>() {
+//                    })
+//                    .getBody();
+//
+//            if (reviews != null)
+//                LOG.debug("Found {} reviews for a product with id: {}", reviews.size(), productId);
+//            else
+//                LOG.warn("null reviews");
+//
+//            return reviews;
+//
+//        } catch (Exception ex) {
+//            LOG.warn("Got an exception while requesting reviews, return zero reviews: {}", ex.getMessage());
+//            return new ArrayList<>();
+//        }
+        return null;
     }
 
     @Override
-    public void deleteReviews(Integer productId) {
-        try {
-            var url = reviewServiceUrl + "?productId=" + productId;
-            LOG.debug("Will call the deleteReviews API on URL: {}", url);
-
-            restTemplate.delete(url);
-
-        } catch (HttpClientErrorException ex) {
-            throw handleHttpClientException(ex);
-        }
+    public Mono<Void> deleteReviews(Integer productId) {
+//        try {
+//            var url = reviewServiceUrl + "?productId=" + productId;
+//            LOG.debug("Will call the deleteReviews API on URL: {}", url);
+//
+//            restTemplate.delete(url);
+//
+//        } catch (HttpClientErrorException ex) {
+//            throw handleHttpClientException(ex);
+//        }
+        return null;
     }
 
 

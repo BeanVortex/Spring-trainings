@@ -31,10 +31,8 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public Mono<Recommendation> createRecommendation(Recommendation body) {
-
         if (body.productId() < 1)
             throw new InvalidInputException("Invalid productId: " + body.productId());
-
 
         var entity = mapper.apiToEntity(body);
         return repo.save(entity)
@@ -49,12 +47,10 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public Flux<Recommendation> getRecommendations(Integer productId) {
-
         if (productId < 1)
             throw new InvalidInputException("Invalid productId: " + productId);
 
         LOG.info("Will get recommendations for product with id={}", productId);
-
         return repo.findByProductId(productId)
                 .log(LOG.getName(), Level.FINE)
                 .map(mapper::entityToApi)
@@ -63,10 +59,10 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public void deleteRecommendations(Integer productId) {
+    public Mono<Void> deleteRecommendations(Integer productId) {
         if (productId < 1)
             throw new InvalidInputException("Invalid productId: " + productId);
         LOG.debug("deleteRecommendations: tries to delete recommendations for the product with productId: {}", productId);
-        repo.deleteAll(repo.findByProductId(productId));
+        return repo.deleteAll(repo.findByProductId(productId));
     }
 }

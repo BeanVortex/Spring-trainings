@@ -43,5 +43,5 @@ public interface RecommendationService {
      * @param productId Id of the product
      */
     @DeleteMapping(value = "/recommendation")
-    void deleteRecommendations(@RequestParam(value = "productId") Integer productId);
+    Mono<Void> deleteRecommendations(@RequestParam(value = "productId") Integer productId);
 }

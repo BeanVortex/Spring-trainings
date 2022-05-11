@@ -10,14 +10,12 @@ import ir.darkdeveloper.microservice.api.exceptions.InvalidInputException;
 import ir.darkdeveloper.microservice.api.exceptions.NotFoundException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
-import java.security.PublicKey;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.when;
@@ -34,7 +32,8 @@ record ProductCompositeServiceImplTest(WebTestClient client) {
     private static final int PRODUCT_ID_INVALID = 3;
 
     @Autowired
-    public  ProductCompositeServiceImplTest{}
+    public ProductCompositeServiceImplTest {
+    }
 
     @MockBean
     private static ProductComposition composition;
@@ -43,11 +42,21 @@ record ProductCompositeServiceImplTest(WebTestClient client) {
     void setUp() {
 
         when(composition.getProduct(PRODUCT_ID_OK))
-                .thenReturn(new Product(PRODUCT_ID_OK, "name", 1, "mock-address"));
-//        when(composition.getRecommendations(PRODUCT_ID_OK))
-//                .thenReturn(singletonList(new Recommendation(PRODUCT_ID_OK, 1, "author", 1, "content", "mock address")));
+                .thenReturn(Mono.just(
+                        new Product(PRODUCT_ID_OK, "name", 1, "mock-address")
+                ));
+
+        when(composition.getRecommendations(PRODUCT_ID_OK))
+                .thenReturn(Flux.just(
+                        new Recommendation(PRODUCT_ID_OK, 1, "author",
+                                1, "content", "mock address"))
+                );
+
         when(composition.getReviews(PRODUCT_ID_OK))
-                .thenReturn(singletonList(new Review(PRODUCT_ID_OK, 1, "author", "subject", "content", "mock address")));
+                .thenReturn(Flux.just(
+                        new Review(PRODUCT_ID_OK, 1, "author", "subject",
+                                "content", "mock address")
+                ));
 
         when(composition.getProduct(PRODUCT_ID_NOT_FOUND))
                 .thenThrow(new NotFoundException("NOT FOUND: " + PRODUCT_ID_NOT_FOUND));
@@ -60,7 +69,7 @@ record ProductCompositeServiceImplTest(WebTestClient client) {
     void createCompositeProduct1() {
         var compositeProduct = new ProductAggregate(1, "name", 1, null,
                 null, null);
-        postAndVerifyProduct(compositeProduct, OK);
+        postAndVerifyProduct(compositeProduct);
     }
 
     @Test
@@ -69,7 +78,7 @@ record ProductCompositeServiceImplTest(WebTestClient client) {
                 singletonList(new RecommendationSummary(1, "a", 1, "c")),
                 singletonList(new ReviewSummary(1, "a", "s", "c")), null);
 
-        postAndVerifyProduct(compositeProduct, OK);
+        postAndVerifyProduct(compositeProduct);
     }
 
     @Test
@@ -78,10 +87,10 @@ record ProductCompositeServiceImplTest(WebTestClient client) {
                 singletonList(new RecommendationSummary(1, "a", 1, "c")),
                 singletonList(new ReviewSummary(1, "a", "s", "c")), null);
 
-        postAndVerifyProduct(compositeProduct, OK);
+        postAndVerifyProduct(compositeProduct);
 
-        deleteAndVerifyProduct(compositeProduct.productId(), OK);
-        deleteAndVerifyProduct(compositeProduct.productId(), OK);
+        deleteAndVerifyProduct(compositeProduct.productId());
+        deleteAndVerifyProduct(compositeProduct.productId());
     }
 
     @Test
@@ -119,18 +128,18 @@ record ProductCompositeServiceImplTest(WebTestClient client) {
                 .expectBody();
     }
 
-    private void postAndVerifyProduct(ProductAggregate compositeProduct, HttpStatus expectedStatus) {
+    private void postAndVerifyProduct(ProductAggregate compositeProduct) {
         client.post()
                 .uri("/product-composite")
                 .body(just(compositeProduct), ProductAggregate.class)
                 .exchange()
-                .expectStatus().isEqualTo(expectedStatus);
+                .expectStatus().isEqualTo(HttpStatus.OK);
     }
 
-    private void deleteAndVerifyProduct(int productId, HttpStatus expectedStatus) {
+    private void deleteAndVerifyProduct(int productId) {
         client.delete()
                 .uri("/product-composite/" + productId)
                 .exchange()
-                .expectStatus().isEqualTo(expectedStatus);
+                .expectStatus().isEqualTo(HttpStatus.OK);
     }
 }
