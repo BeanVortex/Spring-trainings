@@ -19,7 +19,7 @@ public class SchedulersExecutorServiceDecoratorsTest {
 
     private final AtomicInteger methodInvocationCounts = new AtomicInteger();
 
-    private String rsb = "rsb";
+    private final String rsb = "rsb";
 
     @BeforeEach
     void before() {
